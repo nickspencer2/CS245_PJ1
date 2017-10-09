@@ -39,9 +39,9 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
     private int index = 0;
     private int score = 0;
     private final int SIZE = 5;
-    
-    public HighScore() throws FileNotFoundException, IOException, ClassNotFoundException {
-       
+    HangmanFrame hf;
+    public HighScore(HangmanFrame hf) throws FileNotFoundException, IOException, ClassNotFoundException {
+       this.hf = hf;
         f = new File("highscore.ser");
         
         scores = new ArrayList<>();
@@ -60,7 +60,8 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
         }
        
         initComponents();
-        setHighScores(); 
+       setHighScores(); 
+        
     }
     
     public boolean setScore(String name){
@@ -199,6 +200,11 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
         jLabel6.setText("jLabel6");
 
         jButton1.setText("Back");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTextField1.setText("Your Name Here");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -265,6 +271,10 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
        setHighScores();
   
     }                                           
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        hf.showPanel("menu");
+    }                                        
 
 
     // Variables declaration - do not modify                     
