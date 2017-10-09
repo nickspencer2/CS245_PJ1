@@ -11,8 +11,11 @@ import java.awt.Dimension;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,8 +29,10 @@ public class HangmanFrame extends JFrame {
     private javax.swing.JPanel cardPanel;
     private IntroPanel introPanel;
     private MenuPanel menuPanel;
+    private Credit creditPanel;
+    private HighScore highScorePanel;
     
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
     
     /**
      * Default constructor
@@ -45,9 +50,21 @@ public class HangmanFrame extends JFrame {
         cardPanel = new javax.swing.JPanel(new java.awt.CardLayout());
         introPanel = new IntroPanel();
         menuPanel = new MenuPanel(cardPanel);
+        creditPanel = new Credit();
+        try {
+            highScorePanel = new HighScore();
+        } catch (IOException ex) {
+            Logger.getLogger(HangmanFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(HangmanFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         cardPanel.add(introPanel, "intro");
+        cardPanel.add(creditPanel, "creditsButton");
+        cardPanel.add(highScorePanel, "highscoresButton");
         cardPanel.add(menuPanel, "menu");
         this.add(cardPanel);
+        addMenuPanel(highScorePanel, "highScorePanel", "highscoresButton");
+        addMenuPanel(creditPanel, "creditPanel", "creditsButton");
         
         if(DEBUG){
             //Testing adding a new button
@@ -61,6 +78,7 @@ public class HangmanFrame extends JFrame {
             testPanel.add(new JLabel("Test Screen!"));
             //Test the addMenuPanel method, which links a button on the menu panel to a new jpanel
             addMenuPanel(testPanel, "testPanel", "testButton");
+            
         }
         pack();
         setLocationRelativeTo(null);//Center the frame
