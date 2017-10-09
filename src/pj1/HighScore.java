@@ -60,6 +60,7 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
         }
        
         initComponents();
+        setHighScores(); 
     }
     
     public boolean setScore(String name){
