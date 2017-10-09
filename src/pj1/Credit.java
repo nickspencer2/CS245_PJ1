@@ -11,7 +11,7 @@
 * 
 *
 ****************************************************************/
-package javaapplication1;
+package pj1;
 
 
 public class Credit extends javax.swing.JPanel {
@@ -19,7 +19,9 @@ public class Credit extends javax.swing.JPanel {
     /**
      * Creates new form Credit
      */
-    public Credit() {
+    HangmanFrame hf;
+    public Credit(HangmanFrame hf) {
+        this.hf = hf;
         initComponents();
     }
 
@@ -93,7 +95,7 @@ public class Credit extends javax.swing.JPanel {
     }// </editor-fold>                        
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+        hf.showPanel("menu");
     }                                        
 
 
