@@ -8,9 +8,14 @@ package pj1;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.LinkedList;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 /**
@@ -22,39 +27,70 @@ public class HangmanFrame extends JFrame {
     private IntroPanel introPanel;
     private MenuPanel menuPanel;
     
-    private final boolean DEBUG = false;
+    private final boolean DEBUG = true;
     
+    /**
+     * Default constructor
+     */
     public HangmanFrame(){
         initComponents();
     }
     
+    /**
+     * Set up the components in the frame
+     */
     public void initComponents(){
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        
+        //Add the intro and main menu to the card layout to be able to switch between panels
         cardPanel = new javax.swing.JPanel(new java.awt.CardLayout());
         introPanel = new IntroPanel();
-        menuPanel = new MenuPanel();
-        
+        menuPanel = new MenuPanel(cardPanel);
         cardPanel.add(introPanel, "intro");
         cardPanel.add(menuPanel, "menu");
-        //cardPanel.setSize(600, 400);
-        
         this.add(cardPanel);
         
         if(DEBUG){
+            //Testing adding a new button
             javax.swing.JButton testButton = new javax.swing.JButton("Test");
             menuPanel.addButton("testButton", testButton);
+            //To see what buttons we can link with screens
+            System.out.println("Button names: " + Arrays.toString(menuPanel.getButtonNames()));
+            //Make a panel for the "testButton" to link to
+            JPanel testPanel = new JPanel();
+            //Add a label to it to make sure we're viewing the correct screen
+            testPanel.add(new JLabel("Test Screen!"));
+            //Test the addMenuPanel method, which links a button on the menu panel to a new jpanel
+            addMenuPanel(testPanel, "testPanel", "testButton");
         }
-        
         pack();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null);//Center the frame
     }
     
+    /**
+     * Links a button to a screen, when it's pressed that screen will show
+     * @param panel the panel you wish to link a menu button to
+     * @param panelName the name to associate with the panel
+     * @param buttonName the name of the button to link the panel to; use menuPanel.getButtonNames() to see the possible buttons
+     */
+    public void addMenuPanel(JPanel panel, String panelName, String buttonName){
+        cardPanel.add(panel, panelName);
+        menuPanel.setButtonScreen(panelName, buttonName);
+    }
+    
+    /**
+     * Show a panel
+     * @param panelName the name of the panel to show
+     */
     public void showPanel(String panelName){
         CardLayout card = (CardLayout)cardPanel.getLayout();
         card.show(cardPanel, panelName);
     }
     
+    /**
+     * Show a panel after a delay
+     * @param panelName the name of the panel to show
+     * @param seconds the amount of time to wait before switching to the screen in seconds
+     */
     public void showAfter(String panelName, int seconds){
         Timer timer = new Timer(seconds * 1000, new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -78,10 +114,15 @@ public class HangmanFrame extends JFrame {
         System.out.println("Frame hw: " + this.getSize());
     }
     
+    /**
+     * The dimensions we prefer the frame to be
+     * @return the dimensions
+     */
     public Dimension getPreferredSize() {
         return new Dimension(600, 400);
     }
     
+    //Set up look and feel of the panel and create a new HangmanFrame
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

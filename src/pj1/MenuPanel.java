@@ -11,6 +11,7 @@
 ****************************************************************/ 
 package pj1;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -32,6 +33,7 @@ public class MenuPanel extends JPanel {
     private javax.swing.BoxLayout layout;//Layout for the menu panel
     private javax.swing.JLabel titleLabel;//Label with string "Menu"
     private javax.swing.JPanel bottomPane;
+    private javax.swing.JPanel cardPanel;
     
     private Map<String, javax.swing.JButton> buttons;//Map containing the buttons in the menu panel
     private javax.swing.JPanel buttonsPane;
@@ -39,8 +41,9 @@ public class MenuPanel extends JPanel {
     private final String[] INIT_BTN_NAMES = {"playButton", "highscoresButton", "creditsButton"};
     private final boolean DEBUG = false;
     
-    public MenuPanel(){
+    public MenuPanel(javax.swing.JPanel cardPanel){
         super();//Use the default constructor for JPanel
+        this.cardPanel = cardPanel;
         buttons = new HashMap<String, JButton>();
         //Setup the components for the panel
         setupTitleLabel();
@@ -81,6 +84,30 @@ public class MenuPanel extends JPanel {
      */
     protected JButton getButton(String buttonName){
         return buttons.get(buttonName);
+    }
+    
+    /**
+     * 
+     * @param evt the event that triggered this method
+     * @param panelName the name of the panel to be shown when the event occurs
+     */
+    private void setScreen(java.awt.event.MouseEvent evt, String panelName){
+        CardLayout card = (CardLayout)cardPanel.getLayout();
+        card.show(cardPanel, panelName);
+    }
+    
+    /**
+     * 
+     * @param buttonName the name of the button to link to the screen
+     * @param screen the panel the button should lead to
+     */
+    protected void setButtonScreen(String panelName, String buttonName){
+        JButton b = buttons.get(buttonName);
+        b.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                setScreen(evt, panelName);
+            }
+        });
     }
 
     /**
