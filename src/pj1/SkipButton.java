@@ -6,6 +6,8 @@
 package pj1;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -13,7 +15,7 @@ import javax.swing.JButton;
  */
 public class SkipButton extends JButton {
     
-    public SkipButton() {
+    public SkipButton(HighScore highScorePanel, HangmanFrame hangmanFrame, JPanel cardPanel, Hangman game) {
 
         //Sets text of the Button to be the character
         this.setText("Skip");
@@ -28,6 +30,9 @@ public class SkipButton extends JButton {
         this.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //Enter action to go to different Panel here!!!!
+                highScorePanel.isHighScore(0);
+                game.newGame(hangmanFrame, cardPanel, highScorePanel);
+                hangmanFrame.showPanel("highScorePanel");
             }
         });
     }    
