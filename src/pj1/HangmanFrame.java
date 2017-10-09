@@ -31,6 +31,7 @@ public class HangmanFrame extends JFrame {
     private MenuPanel menuPanel;
     private Credit creditPanel;
     private HighScore highScorePanel;
+    private Hangman hangmanPanel;
     
     private final boolean DEBUG = false;
     
@@ -51,6 +52,7 @@ public class HangmanFrame extends JFrame {
         introPanel = new IntroPanel();
         menuPanel = new MenuPanel(cardPanel);
         creditPanel = new Credit(this);
+        hangmanPanel = new Hangman();
         try {
             highScorePanel = new HighScore(this);
         } catch (IOException ex) {
@@ -58,11 +60,13 @@ public class HangmanFrame extends JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(HangmanFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        cardPanel.add(hangmanPanel, "playButton");
         cardPanel.add(introPanel, "intro");
         cardPanel.add(creditPanel, "creditsButton");
         cardPanel.add(highScorePanel, "highscoresButton");
         cardPanel.add(menuPanel, "menu");
         this.add(cardPanel);
+        addMenuPanel(hangmanPanel, "hangmanPanel", "playButton");
         addMenuPanel(highScorePanel, "highScorePanel", "highscoresButton");
         addMenuPanel(creditPanel, "creditPanel", "creditsButton");
         
