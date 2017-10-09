@@ -33,6 +33,9 @@ class IntroPanel extends JPanel {
     private final int LBL_HEIGHT = 10;
     private final boolean DEBUG = false;
     
+    /**
+     * default constructor
+     */
     public IntroPanel(){
         super();//Use default constructor for JPanel
         setupProjectLabel();
@@ -44,6 +47,9 @@ class IntroPanel extends JPanel {
         this.setLayout(layout);
     }
     
+    /**
+     * Set up the label that reads "Project 1"
+     */
     private void setupProjectLabel(){
         labels = new HashMap<String, JLabel>();
         javax.swing.JLabel projectLabel = new javax.swing.JLabel("Project 1");
@@ -60,6 +66,9 @@ class IntroPanel extends JPanel {
         this.add(Box.createVerticalGlue());
     }
     
+    /**
+     * Set up the labels and their layouts to align them correctly
+     */
     private void setupLabels(){
         //create a panel for holding the bottom labels (group name, members, version)
         bottomLabelsPane = new javax.swing.JPanel();
@@ -100,6 +109,10 @@ class IntroPanel extends JPanel {
         if(DEBUG) this.setBorder(BorderFactory.createLineBorder(Color.black));
     }
     
+    /**
+     * Methods to set the size of the panel
+     * @return the dimension
+     */
     public Dimension getPreferredSize() {
         return new Dimension(600, 380);
     }

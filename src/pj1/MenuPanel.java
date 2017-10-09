@@ -41,6 +41,10 @@ public class MenuPanel extends JPanel {
     private final String[] INIT_BTN_NAMES = {"playButton", "highscoresButton", "creditsButton"};
     private final boolean DEBUG = false;
     
+    /**
+     * Constructor
+     * @param cardPanel the cardPanel that switches between panels. Used so the buttons on this panel can switch to other panels.
+     */
     public MenuPanel(javax.swing.JPanel cardPanel){
         super();//Use the default constructor for JPanel
         this.cardPanel = cardPanel;
