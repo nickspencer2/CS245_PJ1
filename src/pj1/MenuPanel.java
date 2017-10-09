@@ -15,14 +15,21 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.List;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -122,7 +129,7 @@ public class MenuPanel extends JPanel {
         javax.swing.BoxLayout titlePaneLayout = new javax.swing.BoxLayout(titlePane, BoxLayout.LINE_AXIS);
         titlePane.setLayout(titlePaneLayout);
         titleLabel = new javax.swing.JLabel("Menu");
-        titleLabel.setFont(new java.awt.Font("Tahoma", 0, 48));
+        titleLabel.setFont(new java.awt.Font("Charlemagne std", 0, 48));
         titlePane.add(Box.createHorizontalGlue());
         titlePane.add(titleLabel);
         titlePane.add(Box.createHorizontalGlue());
@@ -130,6 +137,11 @@ public class MenuPanel extends JPanel {
         this.add(Box.createVerticalGlue());
     }
     
+    /**
+     * Add a button with associated name
+     * @param buttonName the name to associate with the button
+     * @param button the button to add
+     */
     protected void addButton(String buttonName, JButton button){
         javax.swing.JPanel buttonPane = new javax.swing.JPanel();
         javax.swing.BoxLayout buttonLayout = new javax.swing.BoxLayout(buttonPane, BoxLayout.LINE_AXIS);
@@ -142,6 +154,25 @@ public class MenuPanel extends JPanel {
         buttons.put(buttonName, button);
         buttonsPane.add(Box.createRigidArea(new Dimension(0, 10)));
     }
+    
+    /**
+     * A method to setup the icon for the menu panel
+     */
+    private void setupIcon(){
+        if(DEBUG){
+            System.out.println("Working Directory = " +
+                  System.getProperty("user.dir"));
+        }
+        BufferedImage myPicture = null;
+        try{
+            myPicture = ImageIO.read(new File("Images/nbd_icon.jpg"));
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        JLabel picLabel = new JLabel(new ImageIcon(myPicture.getScaledInstance(100, 100, Image.SCALE_FAST)));
+        bottomPane.add(picLabel);
+    }
 
     /**
      * A private method for encapsulation which creates the buttons in a hashmap, sets their preferred sizes, and adds them to this panel
@@ -152,6 +183,7 @@ public class MenuPanel extends JPanel {
         this.add(bottomPane);
         javax.swing.BoxLayout bottomPaneLayout = new javax.swing.BoxLayout(bottomPane, BoxLayout.LINE_AXIS);
         bottomPane.setLayout(bottomPaneLayout);
+        setupIcon();
         //Add a filler to push the buttons pane to the right side
         bottomPane.add(Box.createHorizontalGlue());
         if(DEBUG) bottomPane.setBorder(BorderFactory.createLineBorder(Color.black));
