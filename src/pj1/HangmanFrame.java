@@ -50,9 +50,9 @@ public class HangmanFrame extends JFrame {
         cardPanel = new javax.swing.JPanel(new java.awt.CardLayout());
         introPanel = new IntroPanel();
         menuPanel = new MenuPanel(cardPanel);
-        creditPanel = new Credit();
+        creditPanel = new Credit(this);
         try {
-            highScorePanel = new HighScore();
+            highScorePanel = new HighScore(this);
         } catch (IOException ex) {
             Logger.getLogger(HangmanFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
