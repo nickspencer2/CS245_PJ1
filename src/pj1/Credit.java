@@ -46,13 +46,13 @@ public class Credit extends javax.swing.JPanel {
         jLabel1.setText("Credit");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel2.setText("Daniel Chow");
+        jLabel2.setText("Daniel Chow 010017319");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel3.setText("Blake Gilmartin");
+        jLabel3.setText("Blake Gilmartin 010458032");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel4.setText("Nick");
+        jLabel4.setText("Nick 009834019");
 
         jButton1.setText("Back");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
