@@ -222,7 +222,7 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
             }
         });
 
-        jTextField1.setText("Your Name Here");
+        jTextField1.setText("Enter your name");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
