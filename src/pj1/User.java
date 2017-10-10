@@ -25,11 +25,14 @@ public class User implements Serializable{
         this.highScore = highScore;
     }
     @Override
+    //method:toString
+    //purpose: this method will return a string with both the name and score. 
     public String toString(){
         String userScore = name + " " + Integer.toString(highScore);
         return userScore;
     }
-
+    //method:getScore
+    //purpose: this method will return just the highscore of the object
     int getScore() {
         return highScore;
         
