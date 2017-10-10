@@ -32,16 +32,21 @@ import java.util.logging.Logger;
 
 public class HighScore extends javax.swing.JPanel implements Serializable{
 
-    private String name = null;
+    private String name;
     File f;
     private List<User> scores;
-    private Boolean bHS = false;
-    private int index = 0;
-    private int score = 0;
+    private Boolean bHS;
+    private int index;
+    private int score;
     private final int SIZE = 5;
     HangmanFrame hf;
     public HighScore(HangmanFrame hf) throws FileNotFoundException, IOException, ClassNotFoundException {
-       this.hf = hf;
+        name = null;
+        bHS = false
+        index = 0
+        score = 0
+        
+        this.hf = hf;
         f = new File("highscore.ser");
         
         scores = new ArrayList<>();
