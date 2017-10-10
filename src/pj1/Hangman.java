@@ -72,6 +72,14 @@ public class Hangman extends javax.swing.JPanel {
         this.setSize(600, 400);
         this.setLayout(null);
         
+        //Display the current score
+        JLabel currScore = new JLabel();
+        currScore.setFont(UIManager.getFont("Label.font").deriveFont(Font.BOLD, 20));
+        currScore.setText("Score: 100");
+        currScore.setLocation(400, 100);
+        currScore.setSize(200, 50);
+        this.add(currScore);
+        
         //Create a "_" that is centered for every letter of the word
         for(int i = 0; i < wordLength; i++) {
             
@@ -165,7 +173,7 @@ public class Hangman extends javax.swing.JPanel {
                     
                     //if not hit then subtract score and check if game over
                     if(!hit) {
-                        if(!subtractScore()) {
+                        if(!subtractScore(currScore)) {
                             highScorePanel.isHighScore(score);
                             newGame(hangmanFrame, cardPanel, highScorePanel);
                             hangmanFrame.showPanel("highScorePanel");
@@ -230,7 +238,7 @@ public class Hangman extends javax.swing.JPanel {
                     
                     //if not hit then subtract score and check if game over
                     if(!hit) {
-                        if(!subtractScore()) {
+                        if(!subtractScore(currScore)) {
                             highScorePanel.isHighScore(score);
                             newGame(hangmanFrame, cardPanel, highScorePanel);
                             hangmanFrame.showPanel("highScorePanel");
@@ -306,8 +314,9 @@ public class Hangman extends javax.swing.JPanel {
     
     //subtractScore and check if the total points are lower than the 40 return
     //false
-    private boolean subtractScore() {
+    private boolean subtractScore(JLabel currScore) {
         score = score - 10;
+        currScore.setText("Score: " + score);
         return score > 40;
     }
     
