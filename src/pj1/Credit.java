@@ -93,7 +93,8 @@ public class Credit extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>                        
-
+    //method:jButton1ActionPerformed
+    //purpose: this method will change the panel to the main menu when backbutton is clicked.
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         hf.showPanel("menu");
     }                                        
