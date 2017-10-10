@@ -140,9 +140,9 @@ public class HangmanFrame extends JFrame {
      * The dimensions we prefer the frame to be
      * @return the dimensions
      */
-    public Dimension getPreferredSize() {
-        return new Dimension(600, 400);
-    }
+    //public Dimension getPreferredSize() {
+    //    return new Dimension(600, 400);
+    //}
     
     //Set up look and feel of the panel and create a new HangmanFrame
     public static void main(String args[]) {
