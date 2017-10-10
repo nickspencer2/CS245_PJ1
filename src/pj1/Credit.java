@@ -52,7 +52,7 @@ public class Credit extends javax.swing.JPanel {
         jLabel3.setText("Blake Gilmartin 010458032");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel4.setText("Nick 009834019");
+        jLabel4.setText("Nick Spencer 009834019");
 
         jButton1.setText("Back");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
