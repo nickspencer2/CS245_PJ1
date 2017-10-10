@@ -42,10 +42,9 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
     HangmanFrame hf;
     public HighScore(HangmanFrame hf) throws FileNotFoundException, IOException, ClassNotFoundException {
         name = null;
-        bHS = false
-        index = 0
-        score = 0
-        
+        bHS = false;
+        index = 0;
+        score = 0; 
         this.hf = hf;
         f = new File("highscore.ser");
         
