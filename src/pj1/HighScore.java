@@ -67,7 +67,8 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
        setHighScores(); 
         
     }
-    
+    //method:setScore
+    //purpose: this method will add the name and score to the high score  list if it is a new highscore.
     public boolean setScore(String name){
         if(bHS == true){
             
@@ -112,6 +113,8 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
         return false;
 
     }   
+    //method:getHighScore
+    //purpose: this method will return a string array with the current names and highscores on the leaderboard.
     public String[] getHighScore() {
         String[] ret = new String[SIZE];
         for(int i = 0; i < SIZE; i++){
@@ -122,7 +125,8 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
         }
         return ret;
     }
-    
+    //method:setHighScores
+    //purpose: This method will update the names and scores on the highscore panel. 
      public void setHighScores(){
       
         String[] highScores = getHighScore();
@@ -132,7 +136,8 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
         setJLabel5(highScores[3]);
         setJLabel6(highScores[4]);
     }
-    
+    //method:saveScore
+    //purpose: This method will write the arraylist scores into the serialized file. 
       public Boolean saveScore(){
         
         try (FileOutputStream fos = new FileOutputStream("highscore.ser"); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
@@ -143,10 +148,14 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
         }
         return true;
     }
+    //method:reset
+    //purpose: This method will reset the scores and names in the arraylist. 
     public void reset(){
         scores = new ArrayList<>();
         saveScore();
     }
+    //method:setJLabel2-6
+    //purpose: these 5 methods will modify each label to display the correct name and score. 
     public void setJLabel2(String label){
         jLabel2.setText(label);
     }
@@ -162,6 +171,8 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
     public void setJLabel6(String label){
         jLabel6.setText(label);
     }
+    //method:getName
+    //purpose: This method is a getter for the variable name. 
     public String getName(){
         
         String nameReturn = name;
