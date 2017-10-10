@@ -1,8 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/***************************************************************
+* file: SkipButton.java
+* author: B. Gilmartin
+* class: CS 245 – Graphical User Interface
+*
+* assignment: program 1
+* date last modified: 10/9/2017
+*
+* purpose: Is the Skip Button in the game part of the UI. If pressed
+* the score will be 0 and newGame will be called.
+*
+****************************************************************/ 
 package pj1;
 
 import javax.swing.JButton;
@@ -15,6 +22,8 @@ import javax.swing.JPanel;
  */
 public class SkipButton extends JButton {
     
+    //method: SkipButton (Constructor)
+    //purpose: Create a skip button that can call newGame
     public SkipButton(HighScore highScorePanel, HangmanFrame hangmanFrame, JPanel cardPanel, Hangman game) {
 
         //Sets text of the Button to be the character

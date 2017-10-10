@@ -1,8 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/***************************************************************
+* file: Hangman.java
+* author: B. Gilmartin
+* class: CS 245 – Graphical User Interface
+*
+* assignment: program 1
+* date last modified: 10/9/2017
+*
+* purpose: Panel that will be displayed on the main frame of the
+* hangman game actually being played. 
+*
+****************************************************************/ 
 package pj1;
 
 import java.awt.BasicStroke;
@@ -59,15 +66,6 @@ public class Hangman extends javax.swing.JPanel {
         //Word Length
         int wordLength = word.length();
         
-        //calculate label size
-        int LSize = 400/wordLength;
-        
-        //Create the correct number of Labels for hangman
-        HangmanJLabel[] labels = new HangmanJLabel[wordLength];
-        
-        //Starting location
-        int xLocation = 100;
-        
         //Create panel layout
         this.setSize(600, 400);
         this.setLayout(null);
@@ -79,6 +77,133 @@ public class Hangman extends javax.swing.JPanel {
         currScore.setLocation(400, 100);
         currScore.setSize(200, 50);
         this.add(currScore);
+        
+        //Create the correct number of Labels for hangman
+        HangmanJLabel[] labels = new HangmanJLabel[wordLength];
+        
+        //Create the mystery word of the hangman game
+        createMysteryWord(labels, this, word);
+        
+        //Create a AlphaJButton Array of 26 buttons
+        AlphaJButton[] Alpha = new AlphaJButton[26];
+        
+        //Create Alphabet Buttons
+        createAlphaJButtons(Alpha, wordLength, labels, highScorePanel, 
+                hangmanFrame, cardPanel, currScore);
+        
+        this.add(new SkipButton(highScorePanel, hangmanFrame, cardPanel, this));
+        
+        //Create and add clock
+        JLabel clock = new JLabel();
+        createClock(clock);
+        
+    }
+    //method: paintComponent
+    //purpose: Takes care of the graphics (The hangman and the stage as well as
+    //the Hangman title.
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        this.repaint();
+        
+        //Paint the Hangman Stage
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(4));
+        g2.drawLine(185, 215, 415, 215);
+        g2.drawLine(250, 215, 250, 80);
+        g2.drawLine(250, 80, 335, 80);
+        g2.drawLine(335, 80, 335, 100);
+        BufferedImage image = null;
+        
+        //Display the title
+        try {
+            image = ImageIO.read(new File("Images\\Title.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Hangman.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        g.drawImage(image, 0, 0, this);
+        
+        //Display the correct body image
+        BufferedImage body = null;
+        try {
+            body = ImageIO.read(new File("Images\\Body" + limbCounter + ".png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Hangman.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        g.drawImage(body, 292, 100, this);
+        
+    }
+    
+    
+    //method: subtractScore
+    //purpose: Subtract score by 10, update the score counter on the GUI
+    //check if the game is over(score is no longer greater than 40).
+    private boolean subtractScore(JLabel currScore) {
+        score = score - 10;
+        currScore.setText("Score: " + score);
+        return score > 40;
+    }
+    
+    //method: allRevealed
+    //purpose: if all letters are revealed return true else return false.
+    private boolean allRevealed(HangmanJLabel[] labels) {
+        for(int i = 0; i < labels.length; i++) {
+            if(!labels[i].isFalse()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    //method: getRandWord
+    //purpose: Get a random word from the words provided. 
+    private String getRandWord() {
+        String[] words = {"ABSTRACT", "CEMETARY", "NURSE", "PHARMACY", "CLIMBING"};
+        Random rand = new Random();
+        return words[rand.nextInt(5)];
+    }
+    
+    //method: newGame
+    //purpose: create a new instance of Hangman when the previous game ends and
+    //remove the old Hangman from the cardPanel and replace it with the new one
+    protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel, HighScore highScorePanel) {
+        cardPanel.remove(this);
+        Hangman hangmanPanel = new Hangman(highScorePanel, hangmanFrame, cardPanel);
+        hangmanFrame.addMenuPanel(hangmanPanel, "hangmanPanel", "playButton");
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    //method: createMysteryWord
+    //purpose: create the " _ _ _ _ _ " for the game panel
+    private void createMysteryWord(HangmanJLabel[] labels, Hangman aThis, String word) {
+        //Word Length
+        int wordLength = word.length();
+        
+        //calculate label size
+        int LSize = 400/wordLength;
+        
+        //Starting location
+        int xLocation = 100;
         
         //Create a "_" that is centered for every letter of the word
         for(int i = 0; i < wordLength; i++) {
@@ -107,7 +232,14 @@ public class Hangman extends javax.swing.JPanel {
             //Add the JLabel to the JFrame
             this.add(labels[i]);
         }
-        
+    }
+
+    //method: createAlphaJButtons
+    //purpose: Create, format, and add the buttons for each letter
+    //of the alphabet
+    private void createAlphaJButtons(AlphaJButton[] Alpha, int wordLength,
+            HangmanJLabel[] labels, HighScore highScorePanel, 
+            HangmanFrame hangmanFrame, JPanel cardPanel,JLabel currScore) {
         //Integer ascii of A, used to make alphabet
         int alphabet = 65;
         
@@ -119,9 +251,6 @@ public class Hangman extends javax.swing.JPanel {
         
         //Currently contains starting position, but will change to space buttons
         int spacer = 27;
-        
-        //Create a AlphaJButton Array of 26 buttons
-        AlphaJButton[] Alpha = new AlphaJButton[26];
         
         //Create first 13 buttons, put in correct location, assign action
         for(int i = 0; i < 13; i++) {
@@ -250,9 +379,12 @@ public class Hangman extends javax.swing.JPanel {
             //add Button to panel
             this.add(Alpha[i]);
         }
-        this.add(new SkipButton(highScorePanel, hangmanFrame, cardPanel, this));
-        
-        JLabel clock = new JLabel();
+    }
+
+    //method: createClock
+    //Creates and adds a clock to the hangman panel. The clock updates every
+    //second.
+    private void createClock(JLabel clock) {
         
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MMMMMMMMMMMM dd, yyyy  HH:mm:ss");
         
@@ -277,90 +409,6 @@ public class Hangman extends javax.swing.JPanel {
         clock.setSize(250, 40);
         this.add(clock);
     }
-    
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        this.repaint();
-        
-        //Paint the Hangman Stage
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(new BasicStroke(4));
-        g2.drawLine(185, 215, 415, 215);
-        g2.drawLine(250, 215, 250, 80);
-        g2.drawLine(250, 80, 335, 80);
-        g2.drawLine(335, 80, 335, 100);
-        BufferedImage image = null;
-        
-        //Display the title
-        try {
-            image = ImageIO.read(new File("Images\\Title.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(Hangman.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        g.drawImage(image, 0, 0, this);
-        
-        //Display the correct body image
-        BufferedImage body = null;
-        try {
-            body = ImageIO.read(new File("Images\\Body" + limbCounter + ".png"));
-        } catch (IOException ex) {
-            Logger.getLogger(Hangman.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        g.drawImage(body, 292, 100, this);
-        
-    }
-    
-    
-    //subtractScore and check if the total points are lower than the 40 return
-    //false
-    private boolean subtractScore(JLabel currScore) {
-        score = score - 10;
-        currScore.setText("Score: " + score);
-        return score > 40;
-    }
-    
-    private boolean allRevealed(HangmanJLabel[] labels) {
-        for(int i = 0; i < labels.length; i++) {
-            if(!labels[i].isFalse()) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    private String getRandWord() {
-        String[] words = {"ABSTRACT", "CEMETARY", "NURSE", "PHARMACY", "CLIMBING"};
-        Random rand = new Random();
-        return words[rand.nextInt(5)];
-    }
-    
-    protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel, HighScore highScorePanel) {
-        cardPanel.remove(this);
-        Hangman hangmanPanel = new Hangman(highScorePanel, hangmanFrame, cardPanel);
-        hangmanFrame.addMenuPanel(hangmanPanel, "hangmanPanel", "playButton");
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-    }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

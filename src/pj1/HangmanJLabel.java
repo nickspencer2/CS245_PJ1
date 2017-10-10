@@ -1,8 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/***************************************************************
+* file: HangmanJLable.java
+* author: B. Gilmartin
+* class: CS 245 – Graphical User Interface
+*
+* assignment: program 1
+* date last modified: 10/9/2017
+*
+* purpose: JLabel that has a hidden letter that will be revealed
+* when the user presses the correct button.
+*
+****************************************************************/ 
 package pj1;
 
 import javax.swing.JLabel;
@@ -15,26 +22,32 @@ public class HangmanJLabel extends JLabel {
     
     //Hidden Letter
     private String answerLetter;
+    
+    //is this letter revealed
     private boolean revealed;
     
-    //Constructor that assigns the HiddenLetter
+    //method: HangmanJLabel (Constructor)
+    //purpose: Constructor that assigns the HiddenLetter
     public HangmanJLabel(String Letter) {
         answerLetter = Letter;
         revealed = false;
     }
     
-    //Reveal the letter
+    //method: revealLetter
+    //purpose: Reveal the letter and set revealed to true.
     public void revealLetter() {
         this.setText(answerLetter);
         revealed = true;
     }
     
-    //Return false if not revealed
+    //method: isFalse
+    //purpose: return revealed (true if HangmanJLabel is revealed).
     public boolean isFalse() {
         return revealed;
     }
     
-    //return true if the Letter matches the answerLetter, else false
+    //method: isLetter
+    //return if the hidden letter is equal to the Letter entered
     public boolean isLetter(String Letter) {
         return Letter.equals(answerLetter);
     }
