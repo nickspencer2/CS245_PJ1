@@ -8,9 +8,14 @@ package pj1;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -26,6 +31,8 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
+import javax.swing.UIManager;
 
 /**
  *
@@ -80,14 +87,14 @@ public class ColorGamePanel extends JPanel {
         this.setLayout(mainLayout);
         //Setup the panel for the label that says the current time
         JPanel timeLabelPane = new JPanel();
-        JLabel timeLabel = new JLabel("TIMEHERE");
+        JLabel timeLabel = createClock(new JLabel("TIMEHERE"));
         BoxLayout timeLabelLayout = new BoxLayout(timeLabelPane, BoxLayout.LINE_AXIS);
         timeLabelPane.setLayout(timeLabelLayout);
         timeLabelPane.add(Box.createHorizontalGlue());
         timeLabelPane.add(timeLabel);
         layouts.put(timeLabelPane, timeLabelLayout);
-        panels.put("colorLabelPane", timeLabelPane);
-        labels.put("colorLabel", timeLabel);
+        panels.put("timeLabelPane", timeLabelPane);
+        labels.put("timeLabel", timeLabel);
         //Setup the panel for the label that says the current color
         JPanel colorLabelPane = new JPanel();
         JLabel colorLabel = new JLabel(colorNames[r.nextInt(colorNames.length)]);
@@ -124,5 +131,32 @@ public class ColorGamePanel extends JPanel {
         this.add(colorButtonsPane);
     }
     
-    
+    //method: createClock
+    //Creates and adds a clock to the hangman panel. The clock updates every
+    //second.
+    private JLabel createClock(JLabel clock) {
+        
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MMMMMMMMMMMM dd, yyyy  HH:mm:ss");
+        
+        clock.setHorizontalAlignment(JLabel.CENTER);
+        clock.setFont(UIManager.getFont("Label.font").deriveFont(Font.BOLD, 16));
+        Timer time = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar calendar = Calendar.getInstance();
+                Date currTime = calendar.getTime();
+                clock.setText(dateTimeFormat.format(currTime));
+                //clock.setText(DateFormat.getTimeInstance().format(new Date()));
+                
+            }
+        });
+        time.setRepeats(true);
+        time.setCoalesce(true);
+        time.setInitialDelay(0);
+        time.start();
+        
+        clock.setLocation(350, 0);
+        clock.setSize(250, 40);
+        return clock;
+    }
 }
