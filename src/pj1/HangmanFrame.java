@@ -33,7 +33,7 @@ public class HangmanFrame extends JFrame {
     private HighScore highScorePanel;
     private Hangman hangmanPanel;
     
-    private final boolean DEBUG = false;
+    private final boolean DEBUG = true;
     
     /**
      * Default constructor
@@ -74,8 +74,6 @@ public class HangmanFrame extends JFrame {
             //Testing adding a new button
             javax.swing.JButton testButton = new javax.swing.JButton("Test");
             menuPanel.addButton("testButton", testButton);
-            //To see what buttons we can link with screens
-            System.out.println("Button names: " + Arrays.toString(menuPanel.getButtonNames()));
             //Make a panel for the "testButton" to link to
             JPanel testPanel = new JPanel();
             //Add a label to it to make sure we're viewing the correct screen
@@ -83,6 +81,13 @@ public class HangmanFrame extends JFrame {
             //Test the addMenuPanel method, which links a button on the menu panel to a new jpanel
             addMenuPanel(testPanel, "testPanel", "testButton");
             
+            javax.swing.JButton colorGameTestButton = new javax.swing.JButton("Color game");
+            menuPanel.addButton("colorGameTestButton", colorGameTestButton);
+            //To see what buttons we can link with screens
+            System.out.println("Button names: " + Arrays.toString(menuPanel.getButtonNames()));
+            
+            ColorGamePanel colorGamePanel = new ColorGamePanel(this, cardPanel);
+            addMenuPanel(colorGamePanel, "colorGamePanel", "colorGameTestButton");
         }
         pack();
         setLocationRelativeTo(null);//Center the frame
