@@ -6,7 +6,9 @@
 package pj1;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -38,13 +41,15 @@ import javax.swing.UIManager;
  *
  * @author Nick
  */
-public class ColorGamePanel extends JPanel {
+public class ColorGamePanel extends JPanel implements ActionListener {
     private Map<String, JPanel> panels;
-    private Map<JPanel, BoxLayout> layouts;
+    private Map<JPanel, LayoutManager> layouts;
     private Map<String, JButton> buttons;
     private Map<String, JLabel> labels;
     
     private ImageIcon[] colorButtonImages;
+    
+    private final boolean DEBUG = true;
     
     private final String[] colorButtonsNames = {"yellowButton", "greenButton", "purpleButton", "redButton", "blueButton"};
     private final Color[] colors = {Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.RED, Color.BLUE};
@@ -59,6 +64,7 @@ public class ColorGamePanel extends JPanel {
         labels = new HashMap<>();
         initButtonImagesArray();
         setupPanels();
+        addButtonListeners();
     }
     
     private void initButtonImagesArray(){
@@ -69,15 +75,58 @@ public class ColorGamePanel extends JPanel {
     }
     
     private void addRandomColorButtons(JPanel colorButtonsPane, JButton[] colorButtons){
+        Random r = new Random();
         List<JButton> randomButtons = new ArrayList<>();
         for(int i = 0; i < colorButtons.length; i++){
             randomButtons.add(colorButtons[i]);
         }
+        LinkedList<int[]> colorButtonCoords = new LinkedList<>();
+        int i = 0;
+        while(i < 5){
+            int[] coords = {r.nextInt(5), r.nextInt(5)};
+            boolean colorButtonCoordsContains = false;
+            if(DEBUG){
+                System.out.println("Checking if " + coords[0] + ", " + coords[1] + " is in colorButtonCoords.");
+            }
+            for(int j = 0; j < colorButtonCoords.size(); j++){
+                if((colorButtonCoords.get(j))[0] == coords[0] && (colorButtonCoords.get(j))[1] == coords[1])
+                    colorButtonCoordsContains = true;
+            }
+            if(!colorButtonCoordsContains){
+                colorButtonCoords.add(coords);
+                i++;
+            }
+        }
+        if(DEBUG){
+        System.out.println("colorButtonCoords: ");
+            for(int j = 0; j < colorButtonCoords.size(); j++){
+                System.out.println((colorButtonCoords.get(j))[0] + ", " + (colorButtonCoords.get(j))[1]);
+            }
+        }
         Collections.shuffle(randomButtons);
-        for(int i = 0; i < randomButtons.size(); i++){
-            colorButtonsPane.add(Box.createHorizontalGlue());
-            colorButtonsPane.add(randomButtons.get(i));
-            colorButtonsPane.add(Box.createHorizontalGlue());
+        int k = 0;
+        for(int m = 0; m < 5; m++){
+            for(int j = 0; j < 5; j++){
+                int[] coords = {m, j};
+                boolean colorButtonCoordsContains = false;
+                for(int n = 0; n < colorButtonCoords.size(); n++){
+                    if((colorButtonCoords.get(n))[0] == coords[0] && (colorButtonCoords.get(n))[1] == coords[1])
+                        colorButtonCoordsContains = true;
+                }
+                if(colorButtonCoordsContains){
+                    if(DEBUG){
+                        System.out.println("\tAdding colorButton at " + m + ", " + j);
+                    }
+                    colorButtonsPane.add(randomButtons.get(k++));
+                }
+                else{
+                    final JLabel label = new JLabel("");
+                    if(DEBUG){
+                        label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    }
+                    colorButtonsPane.add(label);
+                }
+            }
         }
     }
     
@@ -116,7 +165,7 @@ public class ColorGamePanel extends JPanel {
         JButton redButton = new JButton(colorButtonImages[3]);
         JButton blueButton = new JButton(colorButtonImages[4]);
         JButton[] colorButtons = {yellowButton, greenButton, purpleButton, redButton, blueButton};
-        BoxLayout colorButtonsPaneLayout = new BoxLayout(colorButtonsPane, BoxLayout.LINE_AXIS);
+        GridLayout colorButtonsPaneLayout = new GridLayout(5, 5);
         colorButtonsPane.setLayout(colorButtonsPaneLayout);
         addRandomColorButtons(colorButtonsPane, colorButtons);
         layouts.put(colorButtonsPane, colorButtonsPaneLayout);
@@ -129,6 +178,16 @@ public class ColorGamePanel extends JPanel {
         this.add(colorLabelPane);
         this.add(Box.createVerticalGlue());
         this.add(colorButtonsPane);
+    }
+    
+    private void addButtonListener(String buttonName){
+        buttons.get(buttonName).addActionListener(this);
+    }
+    
+    private void addButtonListeners(){
+        for(String s : colorButtonsNames){
+            addButtonListener(s);
+        }
     }
     
     //method: createClock
@@ -158,5 +217,15 @@ public class ColorGamePanel extends JPanel {
         clock.setLocation(350, 0);
         clock.setSize(250, 40);
         return clock;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(DEBUG){
+            if(e.getSource() == buttons.get("yellowButton")){
+                System.out.println("Yellow button clicked!");
+            }
+        }
+        //TODO listening code here
     }
 }
