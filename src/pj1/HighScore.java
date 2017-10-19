@@ -49,6 +49,7 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
         f = new File("highscore.ser");
         
         scores = new ArrayList<>();
+        reset();
         if(f.exists()&&!f.isDirectory()){
            FileInputStream fis = new FileInputStream(f);
            ObjectInputStream ois = new ObjectInputStream(fis);
@@ -118,7 +119,7 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
     public String[] getHighScore() {
         String[] ret = new String[SIZE];
         for(int i = 0; i < SIZE; i++){
-            ret[i] = "";
+            ret[i] = " ";
         }
         for(int i = 0; i < scores.size(); i++){
             ret[i] = scores.get(i).toString();
@@ -152,11 +153,17 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
     //purpose: This method will reset the scores and names in the arraylist. 
     public void reset(){
         scores = new ArrayList<>();
+        scores.add(new User("ABC", 0));
+        scores.add(new User("ABC", 0));
+        scores.add(new User("ABC", 0));
+        scores.add(new User("ABC", 0));
+        scores.add(new User("ABC", 0));
+        
         saveScore();
     }
     //method:setJLabel2-6
     //purpose: these 5 methods will modify each label to display the correct name and score. 
-    public void setJLabel2(String label){
+        public void setJLabel2(String label){
         jLabel2.setText(label);
     }
     public void setJLabel3(String label){
