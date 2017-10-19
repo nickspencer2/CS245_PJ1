@@ -287,6 +287,14 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         //TODO listening code here
     }
     
+    
+    /**
+     * method: colorButtonAddAction
+     * function: add an action listener to the buttons that plays
+     * the game.
+     * @param colorButtons
+     * @param colorLabel 
+     */
     private void colorButtonAddAction(JButton[] colorButtons, JLabel colorLabel) {
         Random r = new Random();
         for(int i = 0; i < 5; i++) {
@@ -313,6 +321,14 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         }
     }
     
+    /**
+     * method: newGame
+     * function: Remove game from the cardPanel. Create new color game and 
+     * add it to the cardPanel.
+     * @param hangmanFrame
+     * @param cardPanel
+     * @param highScorePanel 
+     */
     protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel, HighScore highScorePanel) {
         cardPanel.remove(this);
         ColorGamePanel colorGamePanel = new ColorGamePanel( hangmanFrame, highScorePanel, cardPanel);
@@ -320,6 +336,10 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         
     }
 
+    /**
+     * Set score to i
+     * @param i 
+     */
     void setScore(int i) {
         score = i;
     }
