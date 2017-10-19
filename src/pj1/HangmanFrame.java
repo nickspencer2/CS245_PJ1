@@ -32,6 +32,7 @@ public class HangmanFrame extends JFrame {
     private Credit creditPanel;
     private HighScore highScorePanel;
     private Hangman hangmanPanel;
+    private ColorGamePanel colorGamePanel;
     
     private final boolean DEBUG = true;
     
@@ -59,36 +60,38 @@ public class HangmanFrame extends JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(HangmanFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        hangmanPanel = new Hangman(highScorePanel, this, cardPanel);
+        colorGamePanel = new ColorGamePanel(this, highScorePanel, cardPanel);
+        hangmanPanel = new Hangman(colorGamePanel, this, cardPanel);
         cardPanel.add(hangmanPanel, "playButton");
         cardPanel.add(introPanel, "intro");
         cardPanel.add(creditPanel, "creditsButton");
         cardPanel.add(highScorePanel, "highscoresButton");
         cardPanel.add(menuPanel, "menu");
+        cardPanel.add(colorGamePanel, "colorGamePanel");
         this.add(cardPanel);
         addMenuPanel(hangmanPanel, "hangmanPanel", "playButton");
         addMenuPanel(highScorePanel, "highScorePanel", "highscoresButton");
         addMenuPanel(creditPanel, "creditPanel", "creditsButton");
         
-        if(DEBUG){
-            //Testing adding a new button
-            javax.swing.JButton testButton = new javax.swing.JButton("Test");
-            menuPanel.addButton("testButton", testButton);
-            //Make a panel for the "testButton" to link to
-            JPanel testPanel = new JPanel();
-            //Add a label to it to make sure we're viewing the correct screen
-            testPanel.add(new JLabel("Test Screen!"));
-            //Test the addMenuPanel method, which links a button on the menu panel to a new jpanel
-            addMenuPanel(testPanel, "testPanel", "testButton");
-            
-            javax.swing.JButton colorGameTestButton = new javax.swing.JButton("Color game");
-            menuPanel.addButton("colorGameTestButton", colorGameTestButton);
-            //To see what buttons we can link with screens
-            System.out.println("Button names: " + Arrays.toString(menuPanel.getButtonNames()));
-            
-            ColorGamePanel colorGamePanel = new ColorGamePanel(this, highScorePanel, cardPanel);
-            addMenuPanel(colorGamePanel, "colorGamePanel", "colorGameTestButton");
-        }
+//        if(DEBUG){
+//            //Testing adding a new button
+//            javax.swing.JButton testButton = new javax.swing.JButton("Test");
+//            menuPanel.addButton("testButton", testButton);
+//            //Make a panel for the "testButton" to link to
+//            JPanel testPanel = new JPanel();
+//            //Add a label to it to make sure we're viewing the correct screen
+//            testPanel.add(new JLabel("Test Screen!"));
+//            //Test the addMenuPanel method, which links a button on the menu panel to a new jpanel
+//            addMenuPanel(testPanel, "testPanel", "testButton");
+//            
+//            javax.swing.JButton colorGameTestButton = new javax.swing.JButton("Color game");
+//            menuPanel.addButton("colorGameTestButton", colorGameTestButton);
+//            //To see what buttons we can link with screens
+//            System.out.println("Button names: " + Arrays.toString(menuPanel.getButtonNames()));
+//            
+//            ColorGamePanel colorGamePanel = new ColorGamePanel(this, highScorePanel, cardPanel);
+//            addMenuPanel(colorGamePanel, "colorGamePanel", "colorGameTestButton");
+//        }
         pack();
         setLocationRelativeTo(null);//Center the frame
     }
@@ -102,6 +105,10 @@ public class HangmanFrame extends JFrame {
     public void addMenuPanel(JPanel panel, String panelName, String buttonName){
         cardPanel.add(panel, panelName);
         menuPanel.setButtonScreen(panelName, buttonName);
+    }
+    
+    public void addMenuPanel(JPanel panel, String panelName) {
+        cardPanel.add(panel, panelName);
     }
     
     /**
