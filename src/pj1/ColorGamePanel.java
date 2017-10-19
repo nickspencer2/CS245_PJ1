@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,7 +51,7 @@ public class ColorGamePanel extends JPanel implements ActionListener {
     private Map<String, JLabel> labels;
     
     private ImageIcon[] colorButtonImages;
-    private ColorJButton[] colorJButton;
+    //private ColorJButton[] colorJButton;
     
     private final boolean DEBUG = false;
     
@@ -85,9 +86,13 @@ public class ColorGamePanel extends JPanel implements ActionListener {
     
     private void initButtonImagesArray(){
         colorButtonImages = new ImageIcon[5];
-        colorJButton = new ColorJButton[5];
+        //colorJButton = new ColorJButton[5];
         for(int i = 0; i < colorButtonImages.length; i++){
-            colorButtonImages[i] = new ImageIcon(colorButtonImageNames[i]);
+            ImageIcon imageIcon = new ImageIcon(colorButtonImageNames[i]); // load the image to a imageIcon
+            Image image = imageIcon.getImage(); // transform it 
+            Image newimg = image.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+            imageIcon = new ImageIcon(newimg);  // transform it back
+            colorButtonImages[i] = imageIcon;
         }
     }
     

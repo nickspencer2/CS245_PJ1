@@ -86,7 +86,7 @@ public class HangmanFrame extends JFrame {
             //To see what buttons we can link with screens
             System.out.println("Button names: " + Arrays.toString(menuPanel.getButtonNames()));
             
-            ColorGamePanel colorGamePanel = new ColorGamePanel(this, cardPanel);
+            ColorGamePanel colorGamePanel = new ColorGamePanel(this, highScorePanel, cardPanel);
             addMenuPanel(colorGamePanel, "colorGamePanel", "colorGameTestButton");
         }
         pack();
