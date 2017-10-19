@@ -148,14 +148,6 @@ public class HangmanFrame extends JFrame {
         System.out.println("Frame hw: " + this.getSize());
     }
     
-    /**
-     * The dimensions we prefer the frame to be
-     * @return the dimensions
-     */
-    //public Dimension getPreferredSize() {
-    //    return new Dimension(600, 400);
-    //}
-    
     //Set up look and feel of the panel and create a new HangmanFrame
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

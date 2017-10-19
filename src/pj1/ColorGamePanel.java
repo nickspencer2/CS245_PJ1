@@ -1,8 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/***************************************************************
+* file: ColorGamePanel.java
+* author: Nick Spencer and Blake Gilmartin
+* class: CS 245 - GUIs
+*
+* assignment: Project v1.1
+* date last modified: 10/19/2017
+*
+* purpose: this class sets up an object for the panel to display the Color Game
+*
+****************************************************************/ 
 package pj1;
 
 import java.awt.Color;
@@ -51,9 +57,6 @@ public class ColorGamePanel extends JPanel implements ActionListener {
     private Map<String, JLabel> labels;
     
     private ImageIcon[] colorButtonImages;
-    //private ColorJButton[] colorJButton;
-    
-    private final boolean DEBUG = false;
     
     private Color randColor;
     private int score = 0;
@@ -62,11 +65,19 @@ public class ColorGamePanel extends JPanel implements ActionListener {
     private HangmanFrame hangmanFrame;
     private JPanel cardPanel;
     
-    private final String[] colorButtonsNames = {"yellowButton", "greenButton", "purpleButton", "redButton", "blueButton"};
-    private final Color[] colors = {Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.RED, Color.BLUE};
-    private final String[] colorNames = {"YELLOW", "GREEN", "PURPLE", "RED", "BLUE"};
-    private final String[] colorButtonImageNames = {"Images\\yellowbutton.jpg", "Images\\greenbutton.jpg", "Images\\purplebutton.jpg", "Images\\redbutton.jpg", "Images\\bluebutton.jpg"};
+    private final boolean DEBUG = false;
     
+    private final String[] COLOR_BUTTONS_NAMES = {"yellowButton", "greenButton", "purpleButton", "redButton", "blueButton"};
+    private final Color[] COLORS = {Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.RED, Color.BLUE};
+    private final String[] COLOR_NAMES = {"YELLOW", "GREEN", "PURPLE", "RED", "BLUE"};
+    private final String[] COLOR_BUTTONS_IMAGE_NAMES = {"Images\\yellowbutton.jpg", "Images\\greenbutton.jpg", "Images\\purplebutton.jpg", "Images\\redbutton.jpg", "Images\\bluebutton.jpg"};
+    
+    /**
+     * Constructor
+     * @param hFrame the main frame
+     * @param hsPanel the panel for displaying high scores
+     * @param cPanel the Panel which manages the screens (panels)
+     */
     public ColorGamePanel(HangmanFrame hFrame, HighScore hsPanel, JPanel cPanel){
         super();
         round = 0;
@@ -83,11 +94,14 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         addButtonListeners();
     }
     
+    /**
+     * Helper method to fill in the array of images for the color buttons
+     */
     private void initButtonImagesArray(){
         colorButtonImages = new ImageIcon[5];
         //colorJButton = new ColorJButton[5];
         for(int i = 0; i < colorButtonImages.length; i++){
-            ImageIcon imageIcon = new ImageIcon(colorButtonImageNames[i]); // load the image to a imageIcon
+            ImageIcon imageIcon = new ImageIcon(COLOR_BUTTONS_IMAGE_NAMES[i]); // load the image to a imageIcon
             Image image = imageIcon.getImage(); // transform it 
             Image newimg = image.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
             imageIcon = new ImageIcon(newimg);  // transform it back
@@ -95,6 +109,11 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         }
     }
     
+    /**
+     * Add color buttons in random locations
+     * @param colorButtonsPane the pane which is to contain the color buttons
+     * @param colorButtons the buttons to randomly place
+     */
     private void addRandomColorButtons(JPanel colorButtonsPane, JButton[] colorButtons){
         Random r = new Random();
         List<JButton> randomButtons = new ArrayList<>();
@@ -151,6 +170,10 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         }
     }
     
+    /**
+     * Helper method to setup the layout of all the panels, 
+     * along with their labels and buttons
+     */
     private void setupPanels(){
         Random r = new Random();
         BoxLayout mainLayout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
@@ -167,8 +190,8 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         labels.put("timeLabel", timeLabel);
         //Setup the panel for the label that says the current color
         JPanel colorLabelPane = new JPanel();
-        randColor = colors[r.nextInt(colors.length)];
-        JLabel colorLabel = new JLabel(colorNames[r.nextInt(colorNames.length)]);
+        randColor = COLORS[r.nextInt(COLORS.length)];
+        JLabel colorLabel = new JLabel(COLOR_NAMES[r.nextInt(COLOR_NAMES.length)]);
         colorLabel.setFont(new Font("Arial Black", 0, 25));
         colorLabel.setForeground(randColor);
         BoxLayout colorLabelLayout = new BoxLayout(colorLabelPane, BoxLayout.LINE_AXIS);
@@ -194,7 +217,7 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         layouts.put(colorButtonsPane, colorButtonsPaneLayout);
         panels.put("colorButtonsPane", colorButtonsPane);
         for(int i = 0; i < colorButtons.length; i++){
-            buttons.put(colorButtonsNames[i], colorButtons[i]);
+            buttons.put(COLOR_BUTTONS_NAMES[i], colorButtons[i]);
         }
         //Add the colorLabelPane and colorButtonsPane to this panel
         this.add(timeLabelPane);
@@ -203,12 +226,20 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         this.add(colorButtonsPane);
     }
     
+    /**
+     * Adds this as a listener to the button with matching name 
+     * (requires the button to be in the buttons field [map])
+     * @param buttonName the name of the button to add a listener to
+     */
     private void addButtonListener(String buttonName){
         buttons.get(buttonName).addActionListener(this);
     }
     
+    /**
+     * Adds a listener for all the color buttons whose names are in the COLOR_BUTTONS_NAMES field
+     */
     private void addButtonListeners(){
-        for(String s : colorButtonsNames){
+        for(String s : COLOR_BUTTONS_NAMES){
             addButtonListener(s);
         }
     }
@@ -242,6 +273,10 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         return clock;
     }
 
+    /**
+     * Listener for this object
+     * @param e the ActionEvent generated
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(DEBUG){
@@ -255,7 +290,7 @@ public class ColorGamePanel extends JPanel implements ActionListener {
     private void colorButtonAddAction(JButton[] colorButtons, JLabel colorLabel) {
         Random r = new Random();
         for(int i = 0; i < 5; i++) {
-            Color buttonColor = colors[i];
+            Color buttonColor = COLORS[i];
             colorButtons[i].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -265,9 +300,9 @@ public class ColorGamePanel extends JPanel implements ActionListener {
                     }
                     round++;
                     if(round < 5) {
-                        randColor = colors[r.nextInt(colors.length)];
+                        randColor = COLORS[r.nextInt(COLORS.length)];
                         colorLabel.setForeground(randColor);
-                        colorLabel.setText(colorNames[r.nextInt(colorNames.length)]);
+                        colorLabel.setText(COLOR_NAMES[r.nextInt(COLOR_NAMES.length)]);
                     } else {
                         highScorePanel.isHighScore(score);
                         newGame(hangmanFrame, cardPanel, highScorePanel);

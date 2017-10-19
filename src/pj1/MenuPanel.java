@@ -109,8 +109,8 @@ public class MenuPanel extends JPanel {
     
     /**
      * 
+     * @param panelName the name of the panel the button should lead to
      * @param buttonName the name of the button to link to the screen
-     * @param screen the panel the button should lead to
      */
     protected void setButtonScreen(String panelName, String buttonName){
         JButton b = buttons.get(buttonName);
