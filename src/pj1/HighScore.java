@@ -4,7 +4,7 @@
 * class: CS 245 – Graphical User Interface
 *
 * assignment: Swing Project v1.0
-* date last modified: 10/02/2017
+* date last modified: 10/17/2017
 *
 * purpose: This Class is a panel for the HighScore page. It will 
 * handle storing the Highscores in a Serialized file. It will handle
@@ -94,7 +94,7 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
     //         and add the new highscore into the arraylist. 
     public boolean isHighScore(int score) {
         
-       
+       jButton1.setText("End");
         for(int i = 0; i < scores.size(); i++){
             if(score >= scores.get(i).getScore()){
                 
@@ -313,6 +313,8 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         hf.showPanel("menu");
+        jButton1.setText("Back");
+        
     }                                        
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
