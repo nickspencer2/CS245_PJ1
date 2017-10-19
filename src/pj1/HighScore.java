@@ -49,7 +49,7 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
         f = new File("highscore.ser");
         
         scores = new ArrayList<>();
-        reset();
+        
         if(f.exists()&&!f.isDirectory()){
            FileInputStream fis = new FileInputStream(f);
            ObjectInputStream ois = new ObjectInputStream(fis);
@@ -59,6 +59,7 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
         }
         else{
             try (FileOutputStream fos = new FileOutputStream("highscore.ser"); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+                reset();
                 oos.writeObject(scores);
                 oos.flush();
             }
