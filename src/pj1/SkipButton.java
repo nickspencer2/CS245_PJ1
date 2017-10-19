@@ -24,7 +24,7 @@ public class SkipButton extends JButton {
     
     //method: SkipButton (Constructor)
     //purpose: Create a skip button that can call newGame
-    public SkipButton(HighScore highScorePanel, HangmanFrame hangmanFrame, JPanel cardPanel, Hangman game) {
+    public SkipButton(ColorGamePanel colorGamePanel, HangmanFrame hangmanFrame, JPanel cardPanel, Hangman game) {
 
         //Sets text of the Button to be the character
         this.setText("Skip");
@@ -39,9 +39,9 @@ public class SkipButton extends JButton {
         this.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //Enter action to go to different Panel here!!!!
-                highScorePanel.isHighScore(0);
-                game.newGame(hangmanFrame, cardPanel, highScorePanel);
-                hangmanFrame.showPanel("highScorePanel");
+                //colorGamePanel.setScore(0);
+                game.newGame(hangmanFrame, cardPanel, colorGamePanel);
+                hangmanFrame.showPanel("colorGamePanel");
             }
         });
     }    

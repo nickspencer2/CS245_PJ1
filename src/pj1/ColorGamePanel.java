@@ -56,7 +56,7 @@ public class ColorGamePanel extends JPanel implements ActionListener {
     private final boolean DEBUG = false;
     
     private Color randColor;
-    private int score;
+    private int score = 0;
     private int round;
     private HighScore highScorePanel;
     private HangmanFrame hangmanFrame;
@@ -69,7 +69,6 @@ public class ColorGamePanel extends JPanel implements ActionListener {
     
     public ColorGamePanel(HangmanFrame hFrame, HighScore hsPanel, JPanel cPanel){
         super();
-        score = 0;
         round = 0;
         highScorePanel = hsPanel;
         hangmanFrame = hFrame;
@@ -282,7 +281,12 @@ public class ColorGamePanel extends JPanel implements ActionListener {
     protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel, HighScore highScorePanel) {
         cardPanel.remove(this);
         ColorGamePanel colorGamePanel = new ColorGamePanel( hangmanFrame, highScorePanel, cardPanel);
-        hangmanFrame.addMenuPanel(colorGamePanel, "colorGamePanel", "colorGameTestButton");
+        hangmanFrame.addMenuPanel(colorGamePanel, "colorGamePanel");
+        
+    }
+
+    void setScore(int i) {
+        score = i;
     }
     
 }
