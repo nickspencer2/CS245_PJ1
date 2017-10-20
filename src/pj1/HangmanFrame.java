@@ -73,25 +73,28 @@ public class HangmanFrame extends JFrame {
         addMenuPanel(highScorePanel, "highScorePanel", "highscoresButton");
         addMenuPanel(creditPanel, "creditPanel", "creditsButton");
         
-//        if(DEBUG){
-//            //Testing adding a new button
-//            javax.swing.JButton testButton = new javax.swing.JButton("Test");
-//            menuPanel.addButton("testButton", testButton);
-//            //Make a panel for the "testButton" to link to
-//            JPanel testPanel = new JPanel();
-//            //Add a label to it to make sure we're viewing the correct screen
-//            testPanel.add(new JLabel("Test Screen!"));
-//            //Test the addMenuPanel method, which links a button on the menu panel to a new jpanel
-//            addMenuPanel(testPanel, "testPanel", "testButton");
-//            
-//            javax.swing.JButton colorGameTestButton = new javax.swing.JButton("Color game");
-//            menuPanel.addButton("colorGameTestButton", colorGameTestButton);
-//            //To see what buttons we can link with screens
-//            System.out.println("Button names: " + Arrays.toString(menuPanel.getButtonNames()));
-//            
-//            ColorGamePanel colorGamePanel = new ColorGamePanel(this, highScorePanel, cardPanel);
-//            addMenuPanel(colorGamePanel, "colorGamePanel", "colorGameTestButton");
-//        }
+        if(DEBUG){
+            //Testing adding a new button
+            javax.swing.JButton testButton = new javax.swing.JButton("Test");
+            menuPanel.addButton("testButton", testButton);
+            //Make a panel for the "testButton" to link to
+            JPanel testPanel = new JPanel();
+            //Add a label to it to make sure we're viewing the correct screen
+            testPanel.add(new JLabel("Test Screen!"));
+            //Test the addMenuPanel method, which links a button on the menu panel to a new jpanel
+            addMenuPanel(testPanel, "testPanel", "testButton");
+            
+            javax.swing.JButton colorGameTestButton = new javax.swing.JButton("Color game");
+            menuPanel.addButton("colorGameTestButton", colorGameTestButton);
+            ColorGamePanel colorGamePanel = new ColorGamePanel(this, highScorePanel, cardPanel);
+            addMenuPanel(colorGamePanel, "colorGamePanel", "colorGameTestButton");
+            
+            javax.swing.JButton sudokuTestButton = new javax.swing.JButton("Sudoku");
+            menuPanel.addButton("sudokuTestButton", sudokuTestButton);
+            System.out.println("Button names: " + Arrays.toString(menuPanel.getButtonNames()));
+            Sudoku sudokuPanel = new Sudoku();
+            addMenuPanel(sudokuPanel, "sudokuPanel", "sudokuTestButton");
+        }
         pack();
         setLocationRelativeTo(null);//Center the frame
     }

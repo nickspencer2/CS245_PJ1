@@ -5,14 +5,19 @@
  */
 package pj1;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.awt.Paint;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -24,6 +29,10 @@ public class Sudoku extends JPanel {
     private Map<String, JPanel> panels;
     private Map<JPanel, LayoutManager> layouts;
     private Map<String, JButton> buttons;
+    private Map<String, JLabel> labels;
+    private Map<String, JFormattedTextField> formattedTextFields;
+    
+    private final int borderWidth = 2;
     
     public Sudoku(){
         super();
@@ -39,6 +48,8 @@ public class Sudoku extends JPanel {
         setupPanels();
         setupLayouts();
         setupButtons();
+        setupLabels();
+        setupFormattedTextFields();
     }
     
     /**
@@ -76,30 +87,36 @@ public class Sudoku extends JPanel {
         layouts = new HashMap<>();
         for(Entry<String, JPanel>  j : panels.entrySet()){
             String key = j.getKey();
+            JPanel value = j.getValue();
             if(key.equals("topLabelsPane") || key.equals("bottomPane")){
-                BoxLayout jLayout = new BoxLayout(j.getValue(), BoxLayout.LINE_AXIS);
-                j.getValue().setLayout(jLayout);
-                layouts.put(j.getValue(), jLayout);
+                BoxLayout jLayout = new BoxLayout(value, BoxLayout.LINE_AXIS);
+                value.setLayout(jLayout);
+                //value.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                layouts.put(value, jLayout);
             }
             else if(key.equals("submitPane") || key.equals("quitPane")){
-                BoxLayout jLayout = new BoxLayout(j.getValue(), BoxLayout.PAGE_AXIS);
-                j.getValue().setLayout(jLayout);
-                layouts.put(j.getValue(), jLayout);
+                BoxLayout jLayout = new BoxLayout(value, BoxLayout.PAGE_AXIS);
+                value.setLayout(jLayout);
+                //value.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                layouts.put(value, jLayout);
             }
             else if(key.equals("gamePane")){
                 GridLayout jLayout = new GridLayout(3, 3);
-                j.getValue().setLayout(jLayout);
-                layouts.put(j.getValue(), jLayout);
+                value.setLayout(jLayout);
+                value.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+                layouts.put(value, jLayout);
             }
             else if(key.contains("gameSubPane")){//TODO gamesubpanes
                 GridLayout jLayout = new GridLayout(3, 3);
-                j.getValue().setLayout(jLayout);
-                layouts.put(j.getValue(), jLayout);
+                value.setLayout(jLayout);
+                value.setBorder(BorderFactory.createMatteBorder(borderWidth, borderWidth, borderWidth, borderWidth, Color.BLACK));
+                layouts.put(value, jLayout);
             }
             else{//default layout for other panels in this object
-                BoxLayout jLayout = new BoxLayout(j.getValue(), BoxLayout.PAGE_AXIS);
-                j.getValue().setLayout(jLayout);
-                layouts.put(j.getValue(), jLayout);
+                BoxLayout jLayout = new BoxLayout(value, BoxLayout.PAGE_AXIS);
+                value.setLayout(jLayout);
+                //value.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                layouts.put(value, jLayout);
             }
         }
     }
@@ -120,5 +137,36 @@ public class Sudoku extends JPanel {
         JPanel quitPane = panels.get("quitPane");
         quitPane.add(Box.createVerticalGlue());
         quitPane.add(quitButton);
+    }
+    
+    /**
+     * Helper method to setup the labels ("sudoku" and the date/time)
+     */
+    private void setupLabels(){
+        labels = new HashMap<>();
+        JPanel topLabelsPane = panels.get("topLabelsPane");
+        JLabel sudokuLabel = new JLabel("Sudoku");
+        JLabel timeLabel = new JLabel("TIMEHERE");
+        labels.put("sudokuLabel", sudokuLabel);
+        labels.put("timeLabel", timeLabel);
+        topLabelsPane.add(sudokuLabel);
+        topLabelsPane.add(Box.createHorizontalGlue());
+        topLabelsPane.add(timeLabel);
+    }
+    
+    /**
+     * Helper method to setup the formatted text fields for the game
+     */
+    private void setupFormattedTextFields(){
+        formattedTextFields = new HashMap<>();
+        for(int i = 0; i < 9; i++){
+            JPanel subGamePane = panels.get("gameSubPane" + i);
+            for(int j = 0; j < 9; j++){
+                JFormattedTextField formattedTextField = new JFormattedTextField();
+                subGamePane.add(formattedTextField);
+                formattedTextField.setBorder(BorderFactory.createDashedBorder(Color.BLACK));
+                formattedTextFields.put("subGamePane" + i + "formattedTextField" + j, formattedTextField);
+            }
+        }
     }
 }

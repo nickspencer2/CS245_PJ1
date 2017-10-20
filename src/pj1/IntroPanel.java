@@ -85,7 +85,7 @@ class IntroPanel extends JPanel {
         groupPane.add(Box.createHorizontalGlue());
         //create a panel for holding version to right justify it
         javax.swing.JPanel lastLinePane = new javax.swing.JPanel();
-        javax.swing.JLabel versionLabel = new javax.swing.JLabel("v1.0");
+        javax.swing.JLabel versionLabel = new javax.swing.JLabel("v1.2");
         javax.swing.JLabel membersLabel = new javax.swing.JLabel("  Members: Nick Spencer, Blake Gilmartin, Daniel Chow");
         javax.swing.BoxLayout versionPaneLayout = new javax.swing.BoxLayout(lastLinePane, BoxLayout.LINE_AXIS);
         lastLinePane.setLayout(versionPaneLayout);
