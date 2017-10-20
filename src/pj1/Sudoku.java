@@ -9,6 +9,11 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Paint;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,7 +29,7 @@ import javax.swing.JPanel;
  *
  * @author nicks
  */
-public class Sudoku extends JPanel {
+public class Sudoku extends JPanel implements PropertyChangeListener{
     private BoxLayout layout;
     private Map<String, JPanel> panels;
     private Map<JPanel, LayoutManager> layouts;
@@ -33,6 +38,8 @@ public class Sudoku extends JPanel {
     private Map<String, JFormattedTextField> formattedTextFields;
     
     private final int borderWidth = 2;
+    
+    private final boolean DEBUG = true;
     
     public Sudoku(){
         super();
@@ -162,11 +169,93 @@ public class Sudoku extends JPanel {
         for(int i = 0; i < 9; i++){
             JPanel subGamePane = panels.get("gameSubPane" + i);
             for(int j = 0; j < 9; j++){
-                JFormattedTextField formattedTextField = new JFormattedTextField();
+                JFormattedTextField formattedTextField = new JFormattedTextField("");
+                formattedTextField.setText("");
+                formattedTextField.setValue("");
+                formattedTextField.setColumns(1);
+                formattedTextField.addPropertyChangeListener("value", this);
+                formattedTextField.addFocusListener(new FocusListener(){
+                    @Override
+                    public void focusGained(FocusEvent e) {}
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        JFormattedTextField source = (JFormattedTextField) e.getSource();
+                        int intValue = 0;
+                        try{
+                            intValue = Integer.parseInt(source.getText());
+                        }
+                        catch(NumberFormatException ex){
+                            source.setValue("");
+                            source.setText("");
+                        }
+                        if(DEBUG){
+                            System.out.println("intValue2 = " + intValue);
+                        }
+                        if(!(intValue >= 1 && intValue <= 9)){
+                            if(DEBUG){
+                                System.out.println("setting text to ''");
+                            }
+                            source.setValue("");
+                            source.setText("");
+                        }
+                        else{
+                            source.setValue(intValue);
+                            source.setText(source.getValue().toString());
+                        }
+                    }
+                    
+                });
                 subGamePane.add(formattedTextField);
                 formattedTextField.setBorder(BorderFactory.createDashedBorder(Color.BLACK));
                 formattedTextFields.put("subGamePane" + i + "formattedTextField" + j, formattedTextField);
             }
         }
+        if(DEBUG){
+            for(String s : formattedTextFields.keySet()){
+                System.out.println(s);
+            }
+        }
+    }
+
+    /**
+     * listener for the formatted text fields
+     * @param e the event that triggered this method
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent e) {
+        JFormattedTextField source = (JFormattedTextField) e.getSource();
+        int intValue = 0;
+        try{
+            intValue = Integer.parseInt(source.getText());
+        }
+        catch(NumberFormatException ex){
+            source.setValue("");
+            source.setText("");
+        }
+        if(DEBUG){
+            System.out.println("intValue = " + intValue);
+        }
+        if(!(intValue >= 1 && intValue <= 9)){
+            source.setValue("");
+            source.setText("");
+        }
+        else{
+            source.setValue(intValue);
+            source.setText(source.getValue().toString());
+        }
+        /*if(DEBUG){
+            System.out.println("sg2ftf2 value = " + getFormattedTextFieldValue("subGamePane2formattedTextField2"));
+        }*/
+    }
+    
+    public int getFormattedTextFieldValue(String formattedTextFieldName){
+        int value;
+        try{
+            value = Integer.parseInt(formattedTextFields.get(formattedTextFieldName).getValue().toString());
+        }
+        catch(NumberFormatException nfe){
+            return 0;
+        }
+        return value;
     }
 }
