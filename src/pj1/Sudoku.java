@@ -6,6 +6,7 @@
 package pj1;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Paint;
@@ -23,7 +24,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 /**
  *
@@ -36,13 +41,15 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
     private Map<String, JButton> buttons;
     private Map<String, JLabel> labels;
     private Map<String, JFormattedTextField> formattedTextFields;
+    private HangmanFrame hangmanFrame;
     
     private final int borderWidth = 2;
     
     private final boolean DEBUG = true;
     
-    public Sudoku(){
+    public Sudoku(HangmanFrame hmFrame){
         super();
+        hangmanFrame = hmFrame;
         layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
         this.setLayout(layout);
         setup();
@@ -57,6 +64,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         setupButtons();
         setupLabels();
         setupFormattedTextFields();
+        initGameLayout();
     }
     
     /**
@@ -170,6 +178,8 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
             JPanel subGamePane = panels.get("gameSubPane" + i);
             for(int j = 0; j < 9; j++){
                 JFormattedTextField formattedTextField = new JFormattedTextField("");
+                formattedTextField.setHorizontalAlignment(JTextField.CENTER);
+                formattedTextField.setFont(UIManager.getFont("Label.font").deriveFont(Font.BOLD, 26));
                 formattedTextField.setText("");
                 formattedTextField.setValue("");
                 formattedTextField.setColumns(1);
@@ -238,6 +248,9 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         if(!(intValue >= 1 && intValue <= 9)){
             source.setValue("");
             source.setText("");
+            if(intValue != 0) {
+                JOptionPane.showMessageDialog(hangmanFrame , "This is not a good value!!!");
+            }
         }
         else{
             source.setValue(intValue);
@@ -257,5 +270,65 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
             return 0;
         }
         return value;
+    }
+
+    private void initGameLayout() {
+        
+        formattedTextFields.get("subGamePane0formattedTextField0").setText("8");
+        formattedTextFields.get("subGamePane0formattedTextField7").setText("1");
+        formattedTextFields.get("subGamePane1formattedTextField0").setText("4");
+        formattedTextFields.get("subGamePane1formattedTextField2").setText("6");
+        formattedTextFields.get("subGamePane2formattedTextField3").setText("7");
+        formattedTextFields.get("subGamePane2formattedTextField3").setText("4");
+        formattedTextFields.get("subGamePane2formattedTextField6").setText("6");
+        formattedTextFields.get("subGamePane2formattedTextField7").setText("5");
+        formattedTextFields.get("subGamePane3formattedTextField0").setText("5");
+        formattedTextFields.get("subGamePane3formattedTextField2").setText("9");
+        formattedTextFields.get("subGamePane3formattedTextField7").setText("4");
+        formattedTextFields.get("subGamePane3formattedTextField8").setText("8");
+        formattedTextFields.get("subGamePane4formattedTextField1").setText("3");
+        formattedTextFields.get("subGamePane4formattedTextField4").setText("7");
+        formattedTextFields.get("subGamePane4formattedTextField7").setText("2");
+        formattedTextFields.get("subGamePane5formattedTextField0").setText("7");
+        formattedTextFields.get("subGamePane5formattedTextField1").setText("8");
+        formattedTextFields.get("subGamePane5formattedTextField6").setText("1");
+        formattedTextFields.get("subGamePane5formattedTextField8").setText("3");
+        formattedTextFields.get("subGamePane6formattedTextField1").setText("5");
+        formattedTextFields.get("subGamePane6formattedTextField2").setText("2");
+        formattedTextFields.get("subGamePane6formattedTextField5").setText("1");
+        formattedTextFields.get("subGamePane6formattedTextField6").setText("3");
+        formattedTextFields.get("subGamePane7formattedTextField6").setText("9");
+        formattedTextFields.get("subGamePane7formattedTextField8").setText("2");
+        formattedTextFields.get("subGamePane8formattedTextField1").setText("9");
+        formattedTextFields.get("subGamePane8formattedTextField8").setText("5");
+        
+        formattedTextFields.get("subGamePane0formattedTextField0").setEnabled(false);
+        formattedTextFields.get("subGamePane0formattedTextField7").setEnabled(false);
+        formattedTextFields.get("subGamePane1formattedTextField0").setEnabled(false);
+        formattedTextFields.get("subGamePane1formattedTextField2").setEnabled(false);
+        formattedTextFields.get("subGamePane2formattedTextField3").setEnabled(false);
+        formattedTextFields.get("subGamePane2formattedTextField3").setEnabled(false);
+        formattedTextFields.get("subGamePane2formattedTextField6").setEnabled(false);
+        formattedTextFields.get("subGamePane2formattedTextField7").setEnabled(false);
+        formattedTextFields.get("subGamePane3formattedTextField0").setEnabled(false);
+        formattedTextFields.get("subGamePane3formattedTextField2").setEnabled(false);
+        formattedTextFields.get("subGamePane3formattedTextField7").setEnabled(false);
+        formattedTextFields.get("subGamePane3formattedTextField8").setEnabled(false);
+        formattedTextFields.get("subGamePane4formattedTextField1").setEnabled(false);
+        formattedTextFields.get("subGamePane4formattedTextField4").setEnabled(false);
+        formattedTextFields.get("subGamePane4formattedTextField7").setEnabled(false);
+        formattedTextFields.get("subGamePane5formattedTextField0").setEnabled(false);
+        formattedTextFields.get("subGamePane5formattedTextField1").setEnabled(false);
+        formattedTextFields.get("subGamePane5formattedTextField6").setEnabled(false);
+        formattedTextFields.get("subGamePane5formattedTextField8").setEnabled(false);
+        formattedTextFields.get("subGamePane6formattedTextField1").setEnabled(false);
+        formattedTextFields.get("subGamePane6formattedTextField2").setEnabled(false);
+        formattedTextFields.get("subGamePane6formattedTextField5").setEnabled(false);
+        formattedTextFields.get("subGamePane6formattedTextField6").setEnabled(false);
+        formattedTextFields.get("subGamePane7formattedTextField6").setEnabled(false);
+        formattedTextFields.get("subGamePane7formattedTextField8").setEnabled(false);
+        formattedTextFields.get("subGamePane8formattedTextField1").setEnabled(false);
+        formattedTextFields.get("subGamePane8formattedTextField8").setEnabled(false);
+        
     }
 }
