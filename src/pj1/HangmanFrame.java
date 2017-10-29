@@ -11,14 +11,21 @@ import java.awt.Dimension;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.Timer;
 
 /**
@@ -33,26 +40,64 @@ public class HangmanFrame extends JFrame {
     private HighScore highScorePanel;
     private Hangman hangmanPanel;
     private ColorGamePanel colorGamePanel;
+    private Action escapeAction;
+    private Action f1Action;
     
     private final boolean DEBUG = true;
     
     /**
      * Default constructor
      */
+    
     public HangmanFrame(){
+        
         initComponents();
+        
+     
     }
     
     /**
      * Set up the components in the frame
      */
+    
     public void initComponents(){
+        
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         //Add the intro and main menu to the card layout to be able to switch between panels
         cardPanel = new javax.swing.JPanel(new java.awt.CardLayout());
         introPanel = new IntroPanel();
         menuPanel = new MenuPanel(cardPanel);
         creditPanel = new Credit(this);
+        
+        f1Action = new AbstractAction(){
+            @Override
+            //Displays a pop up dialog displaying required information. 
+            public void actionPerformed(ActionEvent e) {
+                 JOptionPane.showMessageDialog(null,"Fall 2017\n" + "Project 1.3\n" 
+                                    + "Daniel Chow 010017319\n"
+                                    + "Blake Gilmartin 010458032\n"
+                                    + "Nick Spencer 009834019\n"
+                                    );
+            }
+        };
+        escapeAction = new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 System.exit(0);
+            }
+        };
+        cardPanel.getInputMap(cardPanel.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F1"),
+            "f1Action");
+        cardPanel.getActionMap().put("f1Action", f1Action);
+        cardPanel.getInputMap(cardPanel.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"),
+            "escapeAction");
+        cardPanel.getActionMap().put("escapeAction", escapeAction);
+       
+        
+        
+        
+        
+        
         try {
             highScorePanel = new HighScore(this);
         } catch (IOException ex) {
@@ -132,6 +177,7 @@ public class HangmanFrame extends JFrame {
         Timer timer = new Timer(seconds * 1000, new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 showPanel(panelName);
+                
             }
         });
         timer.setRepeats(false);
@@ -150,7 +196,7 @@ public class HangmanFrame extends JFrame {
         System.out.println("Total width: " + w);
         System.out.println("Frame hw: " + this.getSize());
     }
-    
+   
     //Set up look and feel of the panel and create a new HangmanFrame
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -182,6 +228,7 @@ public class HangmanFrame extends JFrame {
                 HangmanFrame mainFrame = new HangmanFrame();
                 mainFrame.setVisible(true);
                 mainFrame.showPanel("intro");
+                
                 mainFrame.showAfter("menu", 3);
             }
         });
