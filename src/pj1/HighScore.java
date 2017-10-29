@@ -15,6 +15,7 @@
 ****************************************************************/ 
 package pj1;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,8 +26,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 
@@ -67,6 +66,8 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
        
         initComponents();
        setHighScores(); 
+       
+        
         
     }
     //method:setScore
@@ -133,6 +134,9 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
       
         String[] highScores = getHighScore();
         setJLabel2(highScores[0]); 
+        jButton2.setToolTipText("Reset HighScores");
+        jButton1.setToolTipText("Return to Main Menue");
+        jTextField1.setToolTipText("Enter Name Here");
         setJLabel3(highScores[1]);
         setJLabel4(highScores[2]);
         setJLabel5(highScores[3]);
