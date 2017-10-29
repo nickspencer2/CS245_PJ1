@@ -17,6 +17,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.List;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -177,6 +178,9 @@ public class MenuPanel extends JPanel {
     /**
      * A private method for encapsulation which creates the buttons in a hashmap, sets their preferred sizes, and adds them to this panel
      */
+    
+    
+    
     private void setupButtons() {
         //Create a pane for the bottom half of the main panel
         bottomPane = new javax.swing.JPanel();
