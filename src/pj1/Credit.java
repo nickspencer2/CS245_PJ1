@@ -13,6 +13,14 @@
 ****************************************************************/
 package pj1;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
+
 
 public class Credit extends javax.swing.JPanel {
 
@@ -22,7 +30,10 @@ public class Credit extends javax.swing.JPanel {
     HangmanFrame hf;
     public Credit(HangmanFrame hf) {
         this.hf = hf;
+       
+         
         initComponents();
+        
     }
 
     /**
@@ -33,7 +44,8 @@ public class Credit extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
-
+        
+       
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -55,6 +67,8 @@ public class Credit extends javax.swing.JPanel {
         jLabel4.setText("Nick Spencer 009834019");
 
         jButton1.setText("Back");
+        jButton1.setToolTipText("Returns to Main Menu");
+        
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -97,6 +111,7 @@ public class Credit extends javax.swing.JPanel {
     //purpose: this method will change the panel to the main menu when backbutton is clicked.
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         hf.showPanel("menu");
+       
     }                                        
 
 
@@ -106,5 +121,8 @@ public class Credit extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    
+
+            
     // End of variables declaration                   
 }
