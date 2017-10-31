@@ -74,16 +74,17 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
     //method:setScore
     //purpose: this method will add the name and score to the high score  list if it is a new highscore.
     public boolean setScore(String name){
-        if(bHS == true){
+         if(bHS == true){
             
             User nu = new User(name, score);
-            scores.add(index, nu);
-            if(scores.size() == SIZE + 1){
+            
             scores.remove(SIZE-1);
-        }
+            scores.add(index, nu);
+           
             saveScore();
             
         }
+        
         
         bHS = false;
         return true;
