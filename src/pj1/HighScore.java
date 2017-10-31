@@ -26,6 +26,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 
 
@@ -96,6 +97,7 @@ public class HighScore extends javax.swing.JPanel implements Serializable{
     public boolean isHighScore(int score) {
         
        jButton1.setText("End");
+       JOptionPane.showMessageDialog(null , "Your nigh score is: " + score + "\nPlease enter your name");
         for(int i = 0; i < scores.size(); i++){
             if(score >= scores.get(i).getScore()){
                 
