@@ -248,18 +248,22 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
                     public void focusLost(FocusEvent e) {
                         JFormattedTextField source = (JFormattedTextField) e.getSource();
                         int intValue = 0;
+                        String isNull = "";
                         try{
                             intValue = Integer.parseInt(source.getText());
                         }
                         catch(NumberFormatException ex){
+                            isNull = source.getText();
                             source.setValue("");
                             source.setText("");
                         }
                         if(DEBUG){
                             System.out.println("intValue2 = " + intValue);
                         }
-                        JOptionPane.showMessageDialog(hangmanFrame , "This is not a good value!!!");
                         if(!(intValue >= 1 && intValue <= 9)){
+                            if(!isNull.equals("")) {
+                                JOptionPane.showMessageDialog(hangmanFrame , "This is not a good value!!!");
+                            }
                             if(DEBUG){
                                 System.out.println("setting text to ''");
                             }
@@ -293,10 +297,12 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
     public void propertyChange(PropertyChangeEvent e) {
         JFormattedTextField source = (JFormattedTextField) e.getSource();
         int intValue = 0;
+        String isNull = "";
         try{
             intValue = Integer.parseInt(source.getText());
         }
         catch(NumberFormatException ex){
+            isNull = source.getText();
             source.setValue("");
             source.setText("");
         }
@@ -306,8 +312,9 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         if(!(intValue >= 1 && intValue <= 9)){
             source.setValue("");
             source.setText("");
-            System.out.println(intValue);
-            JOptionPane.showMessageDialog(hangmanFrame , "This is not a good value!!!");
+            if(!isNull.equals("")) {
+                JOptionPane.showMessageDialog(hangmanFrame , "This is not a good value!!!11331");
+            }
         }
         else{
             source.setValue(intValue);
