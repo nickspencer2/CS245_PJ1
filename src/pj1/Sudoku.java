@@ -51,6 +51,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
     private JPanel cardPanel;
     private HighScore highscorePanel;
     private int score;
+    private int initScore;
     private int notAgain;
     
     private final int borderWidth = 2;
@@ -196,6 +197,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
                 //Enter action to go to different Panel here!!!!
                 //colorGamePanel.setScore(0);
                 newGame(hangmanFrame, cardPanel, highscorePanel);
+                score = 0;
                 hangmanFrame.showPanel("highScorePanel");
             }
         });
@@ -250,6 +252,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
                         int intValue = 0;
                         String isNull = "";
                         try{
+                            isNull = source.getText();
                             intValue = Integer.parseInt(source.getText());
                         }
                         catch(NumberFormatException ex){
@@ -261,6 +264,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
                             System.out.println("intValue2 = " + intValue);
                         }
                         if(!(intValue >= 1 && intValue <= 9)){
+                            System.out.println("hiiii");
                             if(!isNull.equals("")) {
                                 JOptionPane.showMessageDialog(hangmanFrame , "This is not a good value!!!");
                             }
@@ -473,11 +477,12 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
     protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel, HighScore hsPanel) {
         cardPanel.remove(this);
         Sudoku sudokuPanel = new Sudoku(hangmanFrame, cardPanel, hsPanel);
+        hsPanel.isHighScore(score+initScore);
         hangmanFrame.addMenuPanel(sudokuPanel, "sudokuPanel");    
     }
     
     public void setScoreSudoku(int prevScore) {
-        score += prevScore;
+        initScore = prevScore;
     }
     
 }

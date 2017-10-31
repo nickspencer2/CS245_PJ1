@@ -40,10 +40,11 @@ public class HangmanFrame extends JFrame {
     private HighScore highScorePanel;
     private Hangman hangmanPanel;
     private ColorGamePanel colorGamePanel;
+    private Sudoku sudokuPanel;
     private Action escapeAction;
     private Action f1Action;
     
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
     
     /**
      * Default constructor
@@ -68,7 +69,6 @@ public class HangmanFrame extends JFrame {
         introPanel = new IntroPanel();
         menuPanel = new MenuPanel(cardPanel);
         creditPanel = new Credit(this);
-        
         f1Action = new AbstractAction(){
             @Override
             //Displays a pop up dialog displaying required information. 
@@ -105,7 +105,9 @@ public class HangmanFrame extends JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(HangmanFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        colorGamePanel = new ColorGamePanel(this, highScorePanel, cardPanel);
+        
+        sudokuPanel = new Sudoku(this, cardPanel, highScorePanel);
+        colorGamePanel = new ColorGamePanel(this, sudokuPanel, cardPanel);
         hangmanPanel = new Hangman(colorGamePanel, this, cardPanel);
         cardPanel.add(hangmanPanel, "playButton");
         cardPanel.add(introPanel, "intro");
@@ -113,6 +115,7 @@ public class HangmanFrame extends JFrame {
         cardPanel.add(highScorePanel, "highscoresButton");
         cardPanel.add(menuPanel, "menu");
         cardPanel.add(colorGamePanel, "colorGamePanel");
+        cardPanel.add(sudokuPanel, "sudokuPanel");
         this.add(cardPanel);
         addMenuPanel(hangmanPanel, "hangmanPanel", "playButton");
         addMenuPanel(highScorePanel, "highScorePanel", "highscoresButton");
@@ -131,7 +134,7 @@ public class HangmanFrame extends JFrame {
             
             javax.swing.JButton colorGameTestButton = new javax.swing.JButton("Color game");
             menuPanel.addButton("colorGameTestButton", colorGameTestButton);
-            ColorGamePanel colorGamePanel = new ColorGamePanel(this, highScorePanel, cardPanel);
+            ColorGamePanel colorGamePanel = new ColorGamePanel(this, sudokuPanel, cardPanel);
             addMenuPanel(colorGamePanel, "colorGamePanel", "colorGameTestButton");
             
             javax.swing.JButton sudokuTestButton = new javax.swing.JButton("Sudoku");

@@ -61,7 +61,7 @@ public class ColorGamePanel extends JPanel implements ActionListener {
     private Color randColor;
     private int score = 0;
     private int round;
-    private HighScore highScorePanel;
+    private Sudoku sudokuPanel;
     private HangmanFrame hangmanFrame;
     private JPanel cardPanel;
     
@@ -78,10 +78,10 @@ public class ColorGamePanel extends JPanel implements ActionListener {
      * @param hsPanel the panel for displaying high scores
      * @param cPanel the Panel which manages the screens (panels)
      */
-    public ColorGamePanel(HangmanFrame hFrame, HighScore hsPanel, JPanel cPanel){
+    public ColorGamePanel(HangmanFrame hFrame, Sudoku sPanel, JPanel cPanel){
         super();
         round = 0;
-        highScorePanel = hsPanel;
+        sudokuPanel = sPanel;
         hangmanFrame = hFrame;
         cardPanel = cPanel;
         
@@ -312,9 +312,9 @@ public class ColorGamePanel extends JPanel implements ActionListener {
                         colorLabel.setForeground(randColor);
                         colorLabel.setText(COLOR_NAMES[r.nextInt(COLOR_NAMES.length)]);
                     } else {
-                        highScorePanel.isHighScore(score);
-                        newGame(hangmanFrame, cardPanel, highScorePanel);
-                        hangmanFrame.showPanel("highScorePanel");
+                        sudokuPanel.setScoreSudoku(score);
+                        newGame(hangmanFrame, cardPanel, sudokuPanel);
+                        hangmanFrame.showPanel("sudokuPanel");
                     }
                 }
             });
@@ -329,9 +329,9 @@ public class ColorGamePanel extends JPanel implements ActionListener {
      * @param cardPanel
      * @param highScorePanel 
      */
-    protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel, HighScore highScorePanel) {
+    protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel, Sudoku sudokuPanel) {
         cardPanel.remove(this);
-        ColorGamePanel colorGamePanel = new ColorGamePanel( hangmanFrame, highScorePanel, cardPanel);
+        ColorGamePanel colorGamePanel = new ColorGamePanel( hangmanFrame, sudokuPanel, cardPanel);
         hangmanFrame.addMenuPanel(colorGamePanel, "colorGamePanel");
         
     }
