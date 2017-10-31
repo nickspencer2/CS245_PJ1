@@ -159,7 +159,12 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
     private void setupButtons(){
         buttons = new HashMap<>();
         JButton submitButton = new JButton("Submit");
+        
+        submitButton.setToolTipText("Submit your answer");
+        
         JButton quitButton = new JButton("Quit");
+        
+        quitButton.setToolTipText("Quit this game. Score for this game is 0");
         
         submitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -242,6 +247,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
                 formattedTextField.setText("");
                 formattedTextField.setValue("");
                 formattedTextField.setColumns(1);
+                formattedTextField.setToolTipText("This is constant");
                 formattedTextField.addPropertyChangeListener("value", this);
                 formattedTextField.addFocusListener(new FocusListener(){
                     @Override
@@ -319,7 +325,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
             source.setValue("");
             source.setText("");
             if(!isNull.equals("")) {
-                JOptionPane.showMessageDialog(hangmanFrame , "This is not a good value!!!11331");
+                JOptionPane.showMessageDialog(hangmanFrame , "This is not a good value!!!");
             }
         }
         else{
@@ -342,6 +348,10 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         return value;
     }
 
+    /**
+     * method: initGameLayout
+     * function: create the layout of the game provided
+     */
     private void initGameLayout() {
         
         formattedTextFields.get("subGamePane0formattedTextField0").setText("8");
@@ -402,6 +412,10 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         
     }
 
+    /**
+     * method: createAnswers
+     * function: create constant answer key
+     */
     private void createAnswers() {
         answers = new HashMap<>();
         
@@ -472,10 +486,19 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         String answersKey;
         for(int i = 0; i < answersKeys.length; i++) {
             answersKey = answersKeys[i].toString();
-            
+            formattedTextFields.get(answersKeys[i]).setToolTipText("Enter number here");
         }
     }
     
+    
+    /**
+     * method: newGame
+     * function: remove this game and add a new one to the cardPanel
+     * display highscore panel.
+     * @param hangmanFrame
+     * @param cardPanel
+     * @param hsPanel 
+     */
     protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel, HighScore hsPanel) {
         cardPanel.remove(this);
         Sudoku sudokuPanel = new Sudoku(hangmanFrame, cardPanel, hsPanel);
@@ -483,6 +506,11 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         hangmanFrame.addMenuPanel(sudokuPanel, "sudokuPanel");    
     }
     
+    /**
+     * method: setScoreSudoku
+     * function: set initial score from previous game
+     * @param prevScore 
+     */
     public void setScoreSudoku(int prevScore) {
         initScore = prevScore;
     }
