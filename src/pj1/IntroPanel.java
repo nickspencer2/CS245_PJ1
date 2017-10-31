@@ -1,8 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/***************************************************************
+* file: IntroPanel.java
+* author: Nick Spencer
+* class: CS 245
+*
+* assignment: Project v1.2
+* date last modified: 10/31/2017
+*
+* purpose: Class for making the intro panel for project v1.2
+*
+****************************************************************/ 
 package pj1;
 
 import java.awt.Color;

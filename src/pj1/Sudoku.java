@@ -1,8 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/***************************************************************
+* file: Sudoku.java
+* author: Nick Spencer
+* class: CS 245
+*
+* assignment: Project v1.2
+* date last modified: 10/31/2017
+*
+* purpose: Class for making the sudoku game panel.
+*
+****************************************************************/ 
 package pj1;
 
 import java.awt.Color;
@@ -58,6 +64,12 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
     
     private final boolean DEBUG = true;
     
+    /**
+     * Constructor initializing the references and parameters
+     * @param hmFrame the frame contanining this panel
+     * @param cPanel the card panel managing the screens in the hmFrame
+     * @param hsPanel the panel for displaying highscores
+     */
     public Sudoku(HangmanFrame hmFrame, JPanel cPanel, HighScore hsPanel){
         super();
         score = 540;
@@ -337,6 +349,11 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         }*/
     }
     
+    /**
+     * Accessor method for the fields in the sudoku game
+     * @param formattedTextFieldName the name of the formatted text field
+     * @return the value of the formatted text field
+     */
     public int getFormattedTextFieldValue(String formattedTextFieldName){
         int value;
         try{
@@ -509,7 +526,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
     /**
      * method: setScoreSudoku
      * function: set initial score from previous game
-     * @param prevScore 
+     * @param prevScore the previous score
      */
     public void setScoreSudoku(int prevScore) {
         initScore = prevScore;
