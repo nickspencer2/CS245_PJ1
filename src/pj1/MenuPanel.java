@@ -200,6 +200,9 @@ public class MenuPanel extends JPanel {
         buttons.put("playButton", new javax.swing.JButton("Play"));
         buttons.put("highscoresButton", new javax.swing.JButton("Highscores"));
         buttons.put("creditsButton", new javax.swing.JButton("Credits"));
+        buttons.get("playButton").setToolTipText("Play Hangman");
+        buttons.get("highscoresButton").setToolTipText("Look at highscores");
+        buttons.get("creditsButton").setToolTipText("Look at the credits");
         for(String s : INIT_BTN_NAMES){
             javax.swing.JButton b = buttons.get(s);
             addButton(s, b);

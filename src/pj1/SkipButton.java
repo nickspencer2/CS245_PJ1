@@ -34,6 +34,8 @@ public class SkipButton extends JButton {
 
         //sets location of the button
         this.setLocation(500, 70);
+        
+        this.setToolTipText("Skip to next game. You will recieve a score of 0 on this game");
 
         //Add ActionListener to Button
         this.addActionListener(new java.awt.event.ActionListener() {

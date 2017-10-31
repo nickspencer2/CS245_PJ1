@@ -311,6 +311,8 @@ public class Hangman extends javax.swing.JPanel {
                     }
                 }
             });
+            Alpha[i].setToolTipText("Enter this letter");
+            
             //add Button to panel
             this.add(Alpha[i]);
         }
@@ -376,6 +378,8 @@ public class Hangman extends javax.swing.JPanel {
                     }
                 }
             });
+            Alpha[i].setToolTipText("Enter this letter");
+            
             //add Button to panel
             this.add(Alpha[i]);
         }
