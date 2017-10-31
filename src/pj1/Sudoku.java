@@ -23,7 +23,10 @@ import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +41,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 
 /**
@@ -240,7 +244,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         labels = new HashMap<>();
         JPanel topLabelsPane = panels.get("topLabelsPane");
         JLabel sudokuLabel = new JLabel("Sudoku");
-        JLabel timeLabel = new JLabel("TIMEHERE");
+        JLabel timeLabel = createClock(new JLabel("TIMEHERE"));;
         labels.put("sudokuLabel", sudokuLabel);
         labels.put("timeLabel", timeLabel);
         topLabelsPane.add(sudokuLabel);
@@ -535,4 +539,32 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         initScore = prevScore;
     }
     
+    //method: createClock
+    //Creates and adds a clock to the hangman panel. The clock updates every
+    //second.
+    private JLabel createClock(JLabel clock) {
+        
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MMMMMMMMMMMM dd, yyyy  HH:mm:ss");
+        
+        clock.setHorizontalAlignment(JLabel.CENTER);
+        clock.setFont(UIManager.getFont("Label.font").deriveFont(Font.BOLD, 16));
+        Timer time = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar calendar = Calendar.getInstance();
+                Date currTime = calendar.getTime();
+                clock.setText(dateTimeFormat.format(currTime));
+                //clock.setText(DateFormat.getTimeInstance().format(new Date()));
+                
+            }
+        });
+        time.setRepeats(true);
+        time.setCoalesce(true);
+        time.setInitialDelay(0);
+        time.start();
+        
+        clock.setLocation(350, 0);
+        clock.setSize(250, 40);
+        return clock;
+    }
 }
