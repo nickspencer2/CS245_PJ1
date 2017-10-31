@@ -342,7 +342,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         formattedTextFields.get("subGamePane0formattedTextField7").setText("1");
         formattedTextFields.get("subGamePane1formattedTextField0").setText("4");
         formattedTextFields.get("subGamePane1formattedTextField2").setText("6");
-        formattedTextFields.get("subGamePane2formattedTextField3").setText("7");
+        formattedTextFields.get("subGamePane2formattedTextField2").setText("7");
         formattedTextFields.get("subGamePane2formattedTextField3").setText("4");
         formattedTextFields.get("subGamePane2formattedTextField6").setText("6");
         formattedTextFields.get("subGamePane2formattedTextField7").setText("5");
@@ -370,7 +370,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         formattedTextFields.get("subGamePane0formattedTextField7").setEnabled(false);
         formattedTextFields.get("subGamePane1formattedTextField0").setEnabled(false);
         formattedTextFields.get("subGamePane1formattedTextField2").setEnabled(false);
-        formattedTextFields.get("subGamePane2formattedTextField3").setEnabled(false);
+        formattedTextFields.get("subGamePane2formattedTextField2").setEnabled(false);
         formattedTextFields.get("subGamePane2formattedTextField3").setEnabled(false);
         formattedTextFields.get("subGamePane2formattedTextField6").setEnabled(false);
         formattedTextFields.get("subGamePane2formattedTextField7").setEnabled(false);
