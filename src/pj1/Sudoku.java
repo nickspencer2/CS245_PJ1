@@ -206,6 +206,9 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
                     newGame(hangmanFrame, cardPanel, highscorePanel);
                     hangmanFrame.showPanel("highScorePanel");
                 }
+                else{
+                    JOptionPane.showMessageDialog(null , "Incorrect solution!");
+                }
             }
         });
         
