@@ -251,6 +251,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
                         String isNull = "";
                         try{
                             intValue = Integer.parseInt(source.getText());
+                            isNull = source.getText();
                         }
                         catch(NumberFormatException ex){
                             isNull = source.getText();
@@ -300,6 +301,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         String isNull = "";
         try{
             intValue = Integer.parseInt(source.getText());
+            isNull = source.getText();
         }
         catch(NumberFormatException ex){
             isNull = source.getText();
