@@ -137,7 +137,7 @@ public class HangmanFrame extends JFrame {
             javax.swing.JButton sudokuTestButton = new javax.swing.JButton("Sudoku");
             menuPanel.addButton("sudokuTestButton", sudokuTestButton);
             System.out.println("Button names: " + Arrays.toString(menuPanel.getButtonNames()));
-            Sudoku sudokuPanel = new Sudoku(this);
+            Sudoku sudokuPanel = new Sudoku(this, cardPanel, highScorePanel);
             addMenuPanel(sudokuPanel, "sudokuPanel", "sudokuTestButton");
         }
         pack();

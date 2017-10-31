@@ -10,12 +10,16 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Paint;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.swing.BorderFactory;
@@ -41,24 +45,36 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
     private Map<String, JButton> buttons;
     private Map<String, JLabel> labels;
     private Map<String, JFormattedTextField> formattedTextFields;
+    private Map<String, Integer> answers;
+    private List<String> deducted;
     private HangmanFrame hangmanFrame;
+    private JPanel cardPanel;
+    private HighScore highscorePanel;
+    private int score;
+    private int notAgain;
     
     private final int borderWidth = 2;
     
     private final boolean DEBUG = true;
     
-    public Sudoku(HangmanFrame hmFrame){
+    public Sudoku(HangmanFrame hmFrame, JPanel cPanel, HighScore hsPanel){
         super();
+        score = 540;
+        notAgain = 0;
         hangmanFrame = hmFrame;
+        cardPanel = cPanel;
+        highscorePanel = hsPanel;
         layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
         this.setLayout(layout);
         setup();
+        createAnswers();
     }
     
     /**
      * Helper method to setup the components of this panel
      */
     public void setup(){
+        deducted = new ArrayList<>();
         setupPanels();
         setupLayouts();
         setupButtons();
@@ -143,6 +159,47 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         buttons = new HashMap<>();
         JButton submitButton = new JButton("Submit");
         JButton quitButton = new JButton("Quit");
+        
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Object[] keys = formattedTextFields.keySet().toArray();
+                boolean complete = true;
+                String key;
+                for(int i = 0; i < keys.length; i++) {
+                    key = keys[i].toString();
+                    if(answers.containsKey(key)) {
+                        if(!formattedTextFields.get(key).getText().toString().equals("")) {
+                            if(answers.get(key) != Integer.parseInt(formattedTextFields.get(key).getText())) {
+                                if(!deducted.contains(key)) {
+                                    System.out.println(key);
+                                    score -= 10;
+                                    deducted.add(key);
+                                }
+                                complete = false;
+                            }
+                        }
+                        if(formattedTextFields.get(key).getText().toString().equals("")) {
+                            complete = false;
+                        }
+                    }
+                }
+                System.out.println("Score: " + score);
+                if(complete) {
+                    newGame(hangmanFrame, cardPanel, highscorePanel);
+                    hangmanFrame.showPanel("highScorePanel");
+                }
+            }
+        });
+        
+        quitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                //Enter action to go to different Panel here!!!!
+                //colorGamePanel.setScore(0);
+                newGame(hangmanFrame, cardPanel, highscorePanel);
+                hangmanFrame.showPanel("highScorePanel");
+            }
+        });
+        
         buttons.put("submitButton", submitButton);
         buttons.put("quitButton", quitButton);
         //add the buttons to the panels
@@ -201,6 +258,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
                         if(DEBUG){
                             System.out.println("intValue2 = " + intValue);
                         }
+                        JOptionPane.showMessageDialog(hangmanFrame , "This is not a good value!!!");
                         if(!(intValue >= 1 && intValue <= 9)){
                             if(DEBUG){
                                 System.out.println("setting text to ''");
@@ -248,9 +306,8 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         if(!(intValue >= 1 && intValue <= 9)){
             source.setValue("");
             source.setText("");
-            if(intValue != 0) {
-                JOptionPane.showMessageDialog(hangmanFrame , "This is not a good value!!!");
-            }
+            System.out.println(intValue);
+            JOptionPane.showMessageDialog(hangmanFrame , "This is not a good value!!!");
         }
         else{
             source.setValue(intValue);
@@ -331,4 +388,89 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         formattedTextFields.get("subGamePane8formattedTextField8").setEnabled(false);
         
     }
+
+    private void createAnswers() {
+        answers = new HashMap<>();
+        
+        answers.put("subGamePane0formattedTextField1", 3);
+        answers.put("subGamePane0formattedTextField2", 5);
+        answers.put("subGamePane0formattedTextField3", 2);
+        answers.put("subGamePane0formattedTextField4", 9);
+        answers.put("subGamePane0formattedTextField5", 6);
+        answers.put("subGamePane0formattedTextField6", 4);
+        answers.put("subGamePane0formattedTextField8", 7);
+        
+        answers.put("subGamePane1formattedTextField1", 1);
+        answers.put("subGamePane1formattedTextField3", 8);
+        answers.put("subGamePane1formattedTextField4", 5);
+        answers.put("subGamePane1formattedTextField5", 7);
+        answers.put("subGamePane1formattedTextField6", 2);
+        answers.put("subGamePane1formattedTextField7", 9);
+        answers.put("subGamePane1formattedTextField8", 3);
+        
+        answers.put("subGamePane2formattedTextField0", 9);
+        answers.put("subGamePane2formattedTextField1", 2);
+        answers.put("subGamePane2formattedTextField4", 3);
+        answers.put("subGamePane2formattedTextField5", 1);
+        answers.put("subGamePane2formattedTextField8", 8);
+        
+        answers.put("subGamePane3formattedTextField1", 6);
+        answers.put("subGamePane3formattedTextField3", 1);
+        answers.put("subGamePane3formattedTextField4", 2);
+        answers.put("subGamePane3formattedTextField5", 3);
+        answers.put("subGamePane3formattedTextField6", 7);
+        
+        answers.put("subGamePane4formattedTextField0", 1);
+        answers.put("subGamePane4formattedTextField2", 4);
+        answers.put("subGamePane4formattedTextField3", 6);
+        answers.put("subGamePane4formattedTextField5", 8);
+        answers.put("subGamePane4formattedTextField6", 5);
+        answers.put("subGamePane4formattedTextField8", 9);
+        
+        answers.put("subGamePane5formattedTextField2", 2);
+        answers.put("subGamePane5formattedTextField3", 5);
+        answers.put("subGamePane5formattedTextField4", 4);
+        answers.put("subGamePane5formattedTextField5", 9);
+        answers.put("subGamePane5formattedTextField7", 6);
+        
+        answers.put("subGamePane6formattedTextField0", 6);
+        answers.put("subGamePane6formattedTextField3", 9);
+        answers.put("subGamePane6formattedTextField4", 8);
+        answers.put("subGamePane6formattedTextField7", 7);
+        answers.put("subGamePane6formattedTextField8", 4);
+        
+        answers.put("subGamePane7formattedTextField0", 7);
+        answers.put("subGamePane7formattedTextField1", 8);
+        answers.put("subGamePane7formattedTextField2", 1);
+        answers.put("subGamePane7formattedTextField3", 3);
+        answers.put("subGamePane7formattedTextField4", 4);
+        answers.put("subGamePane7formattedTextField5", 5);
+        answers.put("subGamePane7formattedTextField7", 6);
+        
+        answers.put("subGamePane8formattedTextField0", 3);
+        answers.put("subGamePane8formattedTextField2", 4);
+        answers.put("subGamePane8formattedTextField3", 2);
+        answers.put("subGamePane8formattedTextField4", 7);
+        answers.put("subGamePane8formattedTextField5", 6);
+        answers.put("subGamePane8formattedTextField6", 8);
+        answers.put("subGamePane8formattedTextField7", 1);
+        
+        Object[] answersKeys = answers.keySet().toArray();
+        String answersKey;
+        for(int i = 0; i < answersKeys.length; i++) {
+            answersKey = answersKeys[i].toString();
+            
+        }
+    }
+    
+    protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel, HighScore hsPanel) {
+        cardPanel.remove(this);
+        Sudoku sudokuPanel = new Sudoku(hangmanFrame, cardPanel, hsPanel);
+        hangmanFrame.addMenuPanel(sudokuPanel, "sudokuPanel");    
+    }
+    
+    public void setScoreSudoku(int prevScore) {
+        score += prevScore;
+    }
+    
 }
