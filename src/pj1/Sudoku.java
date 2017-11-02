@@ -12,6 +12,7 @@
 package pj1;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
@@ -109,6 +110,10 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         JPanel bottomPane = new JPanel();//The pane holding the "Submit" button, the game panel, and the "Quit" button
         JPanel submitPane = new JPanel();//The pane holding the "Submit" button
         JPanel gamePane   = new JPanel();//The pane holding the game
+        Dimension a = new Dimension(300, 300);
+        gamePane.setPreferredSize(a);
+        gamePane.setMinimumSize(a);
+        gamePane.setMaximumSize(a);
         JPanel[] gameSubPanes = new JPanel[9];
         for(int i = 0; i < gameSubPanes.length; i++){
             gameSubPanes[i] = new JPanel();
@@ -262,7 +267,10 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
             for(int j = 0; j < 9; j++){
                 JFormattedTextField formattedTextField = new JFormattedTextField("");
                 formattedTextField.setHorizontalAlignment(JTextField.CENTER);
-                formattedTextField.setFont(UIManager.getFont("Label.font").deriveFont(Font.BOLD, 26));
+                formattedTextField.setFont(UIManager.getFont("Label.font").deriveFont(Font.BOLD, 24));
+                formattedTextField.setPreferredSize(new Dimension(10, 10));
+                formattedTextField.setMaximumSize(new Dimension(10, 10));
+                formattedTextField.setMinimumSize(new Dimension(10, 10));
                 formattedTextField.setText("");
                 formattedTextField.setValue("");
                 formattedTextField.setColumns(1);

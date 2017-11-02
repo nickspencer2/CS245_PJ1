@@ -273,6 +273,26 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         return clock;
     }
 
+    public boolean in(Object button, Map<String, JButton> buttons){
+        return true;
+    }
+    
+    public void shuffleGamePanel(){
+        JPanel colorButtonsPane = panels.get("colorButtonsPane");
+        Component[] cBPComponents = colorButtonsPane.getComponents();
+        List<Component> cBPComponentsList = Arrays.asList(cBPComponents);
+        Collections.shuffle(cBPComponentsList);
+        Component[] cBPNewComponents = cBPComponentsList.toArray(new Component[0]);
+        //Reset panel
+        for(Component c : cBPComponents){
+            colorButtonsPane.remove(c);
+        }
+        //Add new random buttons
+        for(Component c : cBPNewComponents){
+            colorButtonsPane.add(c);
+        }
+    }
+    
     /**
      * Listener for this object
      * @param e the ActionEvent generated
@@ -283,6 +303,9 @@ public class ColorGamePanel extends JPanel implements ActionListener {
             if(e.getSource() == buttons.get("yellowButton")){
                 System.out.println("Yellow button clicked!");
             }
+        }
+        if( in(e.getSource(), buttons) ){
+            shuffleGamePanel();
         }
         //TODO listening code here
     }
