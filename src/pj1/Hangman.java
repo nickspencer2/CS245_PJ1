@@ -158,7 +158,7 @@ public class Hangman extends javax.swing.JPanel {
     //method: getRandWord
     //purpose: Get a random word from the words provided. 
     private String getRandWord() {
-        String[] words = {"ABSTRACT", "CEMETARY", "NURSE", "PHARMACY", "CLIMBING"};
+        String[] words = {"ABSTRACT", "CEMETERY", "NURSE", "PHARMACY", "CLIMBING"};
         Random rand = new Random();
         return words[rand.nextInt(5)];
     }
