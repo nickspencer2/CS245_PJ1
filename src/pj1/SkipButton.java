@@ -42,7 +42,7 @@ public class SkipButton extends JButton {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //Enter action to go to different Panel here!!!!
                 //colorGamePanel.setScore(0);
-                game.newGame(hangmanFrame, cardPanel, colorGamePanel);
+                game.newGameSkip(hangmanFrame, cardPanel);
                 hangmanFrame.showPanel("colorGamePanel");
             }
         });

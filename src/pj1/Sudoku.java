@@ -58,16 +58,20 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
     private Map<String, JFormattedTextField> formattedTextFields;
     private Map<String, Integer> answers;
     private List<String> deducted;
+    
     private HangmanFrame hangmanFrame;
     private JPanel cardPanel;
     private HighScore highscorePanel;
+    
     private int score;
     private int initScore;
     private int notAgain;
+    private int sudokuDebugNum;
     
     private final int borderWidth = 2;
     
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
+    private final boolean DEBUG2 = true;
     
     /**
      * Constructor initializing the references and parameters
@@ -75,14 +79,16 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
      * @param cPanel the card panel managing the screens in the hmFrame
      * @param hsPanel the panel for displaying highscores
      */
-    public Sudoku(HangmanFrame hmFrame, JPanel cPanel, HighScore hsPanel){
+    public Sudoku(HangmanFrame hmFrame, JPanel cPanel, HighScore hsPanel, int sudokuDebugNum){
         super();
         score = 540;
+        initScore = 0;
         notAgain = 0;
         hangmanFrame = hmFrame;
         cardPanel = cPanel;
         highscorePanel = hsPanel;
         layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
+        this.sudokuDebugNum = sudokuDebugNum;
         this.setLayout(layout);
         setup();
         createAnswers();
@@ -200,12 +206,19 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
                                 if(!deducted.contains(key)) {
                                     System.out.println(key);
                                     score -= 10;
+                                    labels.get("scoreLabel").setText("Score: " + score);
                                     deducted.add(key);
                                 }
                                 complete = false;
                             }
                         }
                         if(formattedTextFields.get(key).getText().toString().equals("")) {
+                            if(!deducted.contains(key)) {
+                                    System.out.println(key);
+                                    score -= 10;
+                                    labels.get("scoreLabel").setText("Score: " + score);
+                                    deducted.add(key);
+                            }
                             complete = false;
                         }
                     }
@@ -224,9 +237,8 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
         quitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //Enter action to go to different Panel here!!!!
-                //colorGamePanel.setScore(0);
+                score = initScore;
                 newGame(hangmanFrame, cardPanel, highscorePanel);
-                score = 0;
                 hangmanFrame.showPanel("highScorePanel");
             }
         });
@@ -248,11 +260,15 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
     private void setupLabels(){
         labels = new HashMap<>();
         JPanel topLabelsPane = panels.get("topLabelsPane");
-        JLabel sudokuLabel = new JLabel("Sudoku");
+        JLabel sudokuLabel = new JLabel("Sudoku" + sudokuDebugNum);
+        JLabel scoreLabel = new JLabel("Score: " + score);
         JLabel timeLabel = createClock(new JLabel("TIMEHERE"));;
         labels.put("sudokuLabel", sudokuLabel);
         labels.put("timeLabel", timeLabel);
+        labels.put("scoreLabel", scoreLabel);
         topLabelsPane.add(sudokuLabel);
+        topLabelsPane.add(Box.createHorizontalGlue());
+        topLabelsPane.add(scoreLabel);
         topLabelsPane.add(Box.createHorizontalGlue());
         topLabelsPane.add(timeLabel);
     }
@@ -533,8 +549,9 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
      */
     protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel, HighScore hsPanel) {
         cardPanel.remove(this);
-        Sudoku sudokuPanel = new Sudoku(hangmanFrame, cardPanel, hsPanel);
-        hsPanel.isHighScore(score+initScore);
+        Sudoku sudokuPanel = new Sudoku(hangmanFrame, cardPanel, hsPanel, sudokuDebugNum + 1);
+        hangmanFrame.setSudoku(sudokuPanel);
+        hsPanel.isHighScore(score);
         hangmanFrame.addMenuPanel(sudokuPanel, "sudokuPanel");    
     }
     
@@ -544,7 +561,15 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
      * @param prevScore the previous score
      */
     public void setScoreSudoku(int prevScore) {
+        if(DEBUG2){
+            System.out.println("Color game score: " + prevScore);
+            System.out.println("For sudoku" + sudokuDebugNum);
+        }
         initScore = prevScore;
+        score = 540;
+        score += prevScore;
+        System.out.println("123Score = " + score);
+        labels.get("scoreLabel").setText("Score: " + score);
     }
     
     //method: createClock

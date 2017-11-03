@@ -38,9 +38,11 @@ public class HangmanFrame extends JFrame {
     private MenuPanel menuPanel;
     private Credit creditPanel;
     private HighScore highScorePanel;
+    
     private Hangman hangmanPanel;
     private ColorGamePanel colorGamePanel;
     private Sudoku sudokuPanel;
+    
     private Action escapeAction;
     private Action f1Action;
     
@@ -106,9 +108,9 @@ public class HangmanFrame extends JFrame {
             Logger.getLogger(HangmanFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        sudokuPanel = new Sudoku(this, cardPanel, highScorePanel);
-        colorGamePanel = new ColorGamePanel(this, sudokuPanel, cardPanel);
-        hangmanPanel = new Hangman(colorGamePanel, this, cardPanel);
+        sudokuPanel = new Sudoku(this, cardPanel, highScorePanel, 0);
+        colorGamePanel = new ColorGamePanel(this, cardPanel, 0);
+        hangmanPanel = new Hangman(this, cardPanel, 0);
         cardPanel.add(hangmanPanel, "playButton");
         cardPanel.add(introPanel, "intro");
         cardPanel.add(creditPanel, "creditsButton");
@@ -120,29 +122,6 @@ public class HangmanFrame extends JFrame {
         addMenuPanel(hangmanPanel, "hangmanPanel", "playButton");
         addMenuPanel(highScorePanel, "highScorePanel", "highscoresButton");
         addMenuPanel(creditPanel, "creditPanel", "creditsButton");
-        
-        if(DEBUG){
-            //Testing adding a new button
-            javax.swing.JButton testButton = new javax.swing.JButton("Test");
-            menuPanel.addButton("testButton", testButton);
-            //Make a panel for the "testButton" to link to
-            JPanel testPanel = new JPanel();
-            //Add a label to it to make sure we're viewing the correct screen
-            testPanel.add(new JLabel("Test Screen!"));
-            //Test the addMenuPanel method, which links a button on the menu panel to a new jpanel
-            addMenuPanel(testPanel, "testPanel", "testButton");
-            
-            javax.swing.JButton colorGameTestButton = new javax.swing.JButton("Color game");
-            menuPanel.addButton("colorGameTestButton", colorGameTestButton);
-            ColorGamePanel colorGamePanel = new ColorGamePanel(this, sudokuPanel, cardPanel);
-            addMenuPanel(colorGamePanel, "colorGamePanel", "colorGameTestButton");
-            
-            javax.swing.JButton sudokuTestButton = new javax.swing.JButton("Sudoku");
-            menuPanel.addButton("sudokuTestButton", sudokuTestButton);
-            System.out.println("Button names: " + Arrays.toString(menuPanel.getButtonNames()));
-            Sudoku sudokuPanel = new Sudoku(this, cardPanel, highScorePanel);
-            addMenuPanel(sudokuPanel, "sudokuPanel", "sudokuTestButton");
-        }
         pack();
         setLocationRelativeTo(null);//Center the frame
     }
@@ -198,6 +177,54 @@ public class HangmanFrame extends JFrame {
         System.out.println("Total height: " + h);
         System.out.println("Total width: " + w);
         System.out.println("Frame hw: " + this.getSize());
+    }
+    
+    /**
+     * Accessor for the hangman panel
+     * @return the hangman panel
+     */
+    public Hangman getHangman(){
+        return hangmanPanel;
+    }
+    
+    /**
+     * Modifier for the hangman panel
+     * @param h the hangman panel to set the hangman panel field to
+     */
+    public void setHangman(Hangman h){
+        hangmanPanel = h;
+    }
+    
+    /**
+     * Accessor for the colorgame panel
+     * @return the colorgame panel
+     */
+    public ColorGamePanel getColorGamePanel(){
+        return colorGamePanel;
+    }
+    
+    /**
+     * Modifier for the colorgame panel
+     * @param c the colorgame panel to set the colorgame panel field to
+     */
+    public void setColorGamePanel(ColorGamePanel c){
+        colorGamePanel = c;
+    }
+    
+    /**
+     * Accessor for the sudoku panel
+     * @return the sudoku panel
+     */
+    public Sudoku getSudoku(){
+        return sudokuPanel;
+    }
+    
+    /**
+     * Modifier for the sudoku panel
+     * @param s the sudoku panel to set the sudoku panel field to
+     */
+    public void setSudoku(Sudoku s){
+        sudokuPanel = s;
     }
    
     //Set up look and feel of the panel and create a new HangmanFrame

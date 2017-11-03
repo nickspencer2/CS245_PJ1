@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +33,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import javax.swing.BorderFactory;
@@ -61,11 +63,13 @@ public class ColorGamePanel extends JPanel implements ActionListener {
     private Color randColor;
     private int score = 0;
     private int round;
-    private Sudoku sudokuPanel;
+    private int colorGameDebugNum;
     private HangmanFrame hangmanFrame;
+    private Hangman hangmanPanel;
     private JPanel cardPanel;
     
     private final boolean DEBUG = false;
+    private final boolean DEBUG2 = true;
     
     private final String[] COLOR_BUTTONS_NAMES = {"yellowButton", "greenButton", "purpleButton", "redButton", "blueButton"};
     private final Color[] COLORS = {Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.RED, Color.BLUE};
@@ -78,10 +82,10 @@ public class ColorGamePanel extends JPanel implements ActionListener {
      * @param hsPanel the panel for displaying high scores
      * @param cPanel the Panel which manages the screens (panels)
      */
-    public ColorGamePanel(HangmanFrame hFrame, Sudoku sPanel, JPanel cPanel){
+    public ColorGamePanel(HangmanFrame hFrame, JPanel cPanel, int colorGameDebugNum){
         super();
         round = 0;
-        sudokuPanel = sPanel;
+        this.colorGameDebugNum = colorGameDebugNum;
         hangmanFrame = hFrame;
         cardPanel = cPanel;
         
@@ -181,13 +185,16 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         //Setup the panel for the label that says the current time
         JPanel timeLabelPane = new JPanel();
         JLabel timeLabel = createClock(new JLabel("TIMEHERE"));
+        JLabel scoreLabel = new JLabel("Score: " + score + "..." + colorGameDebugNum);
         BoxLayout timeLabelLayout = new BoxLayout(timeLabelPane, BoxLayout.LINE_AXIS);
         timeLabelPane.setLayout(timeLabelLayout);
+        timeLabelPane.add(scoreLabel);
         timeLabelPane.add(Box.createHorizontalGlue());
         timeLabelPane.add(timeLabel);
         layouts.put(timeLabelPane, timeLabelLayout);
         panels.put("timeLabelPane", timeLabelPane);
         labels.put("timeLabel", timeLabel);
+        labels.put("scoreLabel", scoreLabel);
         //Setup the panel for the label that says the current color
         JPanel colorLabelPane = new JPanel();
         randColor = COLORS[r.nextInt(COLORS.length)];
@@ -210,7 +217,7 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         JButton redButton = new JButton(colorButtonImages[3]);
         JButton blueButton = new JButton(colorButtonImages[4]);
         JButton[] colorButtons = {yellowButton, greenButton, purpleButton, redButton, blueButton};
-        colorButtonAddAction(colorButtons, colorLabel);
+        //colorButtonAddAction(colorButtons, colorLabel);
         GridLayout colorButtonsPaneLayout = new GridLayout(5, 5);
         colorButtonsPane.setLayout(colorButtonsPaneLayout);
         addRandomColorButtons(colorButtonsPane, colorButtons);
@@ -245,7 +252,7 @@ public class ColorGamePanel extends JPanel implements ActionListener {
     }
     
     //method: createClock
-    //Creates and adds a clock to the hangman panel. The clock updates every
+    //Creates and adds a clock to the panel. The clock updates every
     //second.
     private JLabel createClock(JLabel clock) {
         
@@ -273,10 +280,52 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         return clock;
     }
 
+    /**
+     * Returns whether or not the button is in the buttons map
+     * @param button the button
+     * @param buttons the button map
+     * @return true if the button is in the buttons map, false otherwise
+     */
     public boolean in(Object button, Map<String, JButton> buttons){
-        return true;
+        for(JButton jb : buttons.values()){
+            if(jb.equals(button)){
+                return true;
+            }
+        }
+        return false;
     }
     
+    /**
+     * Returns the entry in the button map matching the button
+     * @param button the button to find
+     * @return the entry in the button map matching the button
+     */
+    public Entry<String, JButton> findButtonEntry(Object button){
+        for(Entry<String, JButton> jb : buttons.entrySet()){
+            if(jb.getValue().equals(button)){
+                return jb;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Returns the color associated with the button
+     * @param buttonName the name of the button
+     * @return the color of the button
+     */
+    public Color findButtonColor(String buttonName){
+        for(int i = 0; i < COLOR_BUTTONS_NAMES.length; i++){
+            if(COLOR_BUTTONS_NAMES[i].equals(buttonName)){
+                return COLORS[i];
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Rearranges the color buttons
+     */
     public void shuffleGamePanel(){
         JPanel colorButtonsPane = panels.get("colorButtonsPane");
         Component[] cBPComponents = colorButtonsPane.getComponents();
@@ -299,49 +348,42 @@ public class ColorGamePanel extends JPanel implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(DEBUG){
-            if(e.getSource() == buttons.get("yellowButton")){
-                System.out.println("Yellow button clicked!");
-            }
+        Entry<String, JButton> buttonEntry = findButtonEntry((Component)e.getSource());
+        if(DEBUG2){
+            System.out.println("e.getSource = " + e.getSource());
+            System.out.println("Action = " + e.paramString());
+        }
+        if(buttonEntry == null) return;
+        String buttonName = buttonEntry.getKey();
+        Color buttonColor = findButtonColor(buttonName);
+        JLabel colorLabel = labels.get("colorLabel");
+        Random r = new Random();
+        if(DEBUG2){
+            System.out.println("Button's color = " + buttonColor);
+            System.out.println("Color label's color = " + randColor);
+        }
+        if( randColor.equals(buttonColor) ) {
+            score += 100;
+            labels.get("scoreLabel").setText("Score: " + score);
+            System.out.println("(In ColorGamePanel.actionPerformed) Got one right! Score is now = " + score);
+        }
+        if(DEBUG2){
+            System.out.println("-----------------------");
+        }
+        round++;
+        if(round < 5) {
+            randColor = COLORS[r.nextInt(COLORS.length)];
+            colorLabel.setForeground(randColor);
+            colorLabel.setText(COLOR_NAMES[r.nextInt(COLOR_NAMES.length)]);
+        } else {
+            hangmanFrame.getSudoku().setScoreSudoku(score);
+            newGame(hangmanFrame, cardPanel);
+            hangmanFrame.showPanel("sudokuPanel");
         }
         if( in(e.getSource(), buttons) ){
             shuffleGamePanel();
         }
         //TODO listening code here
-    }
-    
-    
-    /**
-     * method: colorButtonAddAction
-     * function: add an action listener to the buttons that plays
-     * the game.
-     * @param colorButtons
-     * @param colorLabel 
-     */
-    private void colorButtonAddAction(JButton[] colorButtons, JLabel colorLabel) {
-        Random r = new Random();
-        for(int i = 0; i < 5; i++) {
-            Color buttonColor = COLORS[i];
-            colorButtons[i].addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                    if(randColor.equals(buttonColor)) {
-                        score += 100;
-                        System.out.println(score);
-                    }
-                    round++;
-                    if(round < 5) {
-                        randColor = COLORS[r.nextInt(COLORS.length)];
-                        colorLabel.setForeground(randColor);
-                        colorLabel.setText(COLOR_NAMES[r.nextInt(COLOR_NAMES.length)]);
-                    } else {
-                        sudokuPanel.setScoreSudoku(score);
-                        newGame(hangmanFrame, cardPanel, sudokuPanel);
-                        hangmanFrame.showPanel("sudokuPanel");
-                    }
-                }
-            });
-        }
     }
     
     /**
@@ -352,11 +394,11 @@ public class ColorGamePanel extends JPanel implements ActionListener {
      * @param cardPanel
      * @param highScorePanel 
      */
-    protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel, Sudoku sudokuPanel) {
+    protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel) {
         cardPanel.remove(this);
-        ColorGamePanel colorGamePanel = new ColorGamePanel( hangmanFrame, sudokuPanel, cardPanel);
+        ColorGamePanel colorGamePanel = new ColorGamePanel(hangmanFrame, cardPanel, colorGameDebugNum + 1);
+        hangmanFrame.setColorGamePanel(colorGamePanel);
         hangmanFrame.addMenuPanel(colorGamePanel, "colorGamePanel");
-        
     }
 
     /**
@@ -365,6 +407,10 @@ public class ColorGamePanel extends JPanel implements ActionListener {
      */
     void setScore(int i) {
         score = i;
+        if(DEBUG2){
+            System.out.println("CGP " + colorGameDebugNum + "Score set to " + i);
+        }
+        labels.get("scoreLabel").setText("Score = " + score);
     }
     
 }

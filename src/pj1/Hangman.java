@@ -50,11 +50,13 @@ public class Hangman extends javax.swing.JPanel {
     
     private int score;
     private int limbCounter;
+    private int hangmanDebugNum;
     
-    public Hangman(ColorGamePanel colorGamePanel, HangmanFrame hangmanFrame, JPanel cardPanel) {
-        
+    public Hangman(HangmanFrame hangmanFrame, JPanel cardPanel, int hangmanDebugNum) {
         //set default score
         score = 100;
+        
+        this.hangmanDebugNum = hangmanDebugNum;
         
         //set default limb
         limbCounter = 0;
@@ -73,7 +75,7 @@ public class Hangman extends javax.swing.JPanel {
         //Display the current score
         JLabel currScore = new JLabel();
         currScore.setFont(UIManager.getFont("Label.font").deriveFont(Font.BOLD, 20));
-        currScore.setText("Score: 100");
+        currScore.setText("Score: " + score + "..." + hangmanDebugNum);
         currScore.setLocation(400, 100);
         currScore.setSize(200, 50);
         this.add(currScore);
@@ -88,10 +90,10 @@ public class Hangman extends javax.swing.JPanel {
         AlphaJButton[] Alpha = new AlphaJButton[26];
         
         //Create Alphabet Buttons
-        createAlphaJButtons(Alpha, wordLength, labels, colorGamePanel, 
+        createAlphaJButtons(Alpha, wordLength, labels, hangmanFrame.getColorGamePanel(), 
                 hangmanFrame, cardPanel, currScore);
         
-        this.add(new SkipButton(colorGamePanel, hangmanFrame, cardPanel, this));
+        this.add(new SkipButton(hangmanFrame.getColorGamePanel(), hangmanFrame, cardPanel, this));
         
         //Create and add clock
         JLabel clock = new JLabel();
@@ -166,9 +168,21 @@ public class Hangman extends javax.swing.JPanel {
     //method: newGame
     //purpose: create a new instance of Hangman when the previous game ends and
     //remove the old Hangman from the cardPanel and replace it with the new one
-    protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel, ColorGamePanel colorGamePanel) {
+    protected void newGame(HangmanFrame hangmanFrame, JPanel cardPanel) {
         cardPanel.remove(this);
-        Hangman hangmanPanel = new Hangman(colorGamePanel, hangmanFrame, cardPanel);
+        Hangman hangmanPanel = new Hangman(hangmanFrame, cardPanel, hangmanDebugNum + 1);
+        hangmanFrame.setHangman(hangmanPanel);
+        hangmanFrame.getColorGamePanel().setScore(score);
+        hangmanFrame.addMenuPanel(hangmanPanel, "hangmanPanel", "playButton");
+    }
+    
+    //Same as other instance except set score to zero
+    protected void newGameSkip(HangmanFrame hangmanFrame, JPanel cardPanel){
+        cardPanel.remove(this);
+        score = 0;
+        Hangman hangmanPanel = new Hangman(hangmanFrame, cardPanel, hangmanDebugNum + 1);
+        hangmanFrame.setHangman(hangmanPanel);
+        hangmanFrame.getColorGamePanel().setScore(score);
         hangmanFrame.addMenuPanel(hangmanPanel, "hangmanPanel", "playButton");
     }
 
@@ -295,16 +309,16 @@ public class Hangman extends javax.swing.JPanel {
                     
                     //If all letters revealed go to other panel
                     if(allRevealed(labels)) {
-                        colorGamePanel.setScore(score);
-                        newGame(hangmanFrame, cardPanel, colorGamePanel);
+                        hangmanFrame.getColorGamePanel().setScore(score);
+                        newGame(hangmanFrame, cardPanel);
                         hangmanFrame.showPanel("colorGamePanel");
                     }
                     
                     //if not hit then subtract score and check if game over
                     if(!hit) {
                         if(!subtractScore(currScore)) {
-                            colorGamePanel.setScore(score);
-                            newGame(hangmanFrame, cardPanel, colorGamePanel);
+                            hangmanFrame.getColorGamePanel().setScore(score);
+                            newGame(hangmanFrame, cardPanel);
                             hangmanFrame.showPanel("colorGamePanel");
                         }
                         limbCounter++;
@@ -362,16 +376,16 @@ public class Hangman extends javax.swing.JPanel {
                      
                     //If all letters revealed go to other panel
                     if(allRevealed(labels)) {
-                        colorGamePanel.setScore(score);
-                        newGame(hangmanFrame, cardPanel, colorGamePanel);
+                        hangmanFrame.getColorGamePanel().setScore(score);
+                        newGame(hangmanFrame, cardPanel);
                         hangmanFrame.showPanel("colorGamePanel");
                     }
                     
                     //if not hit then subtract score and check if game over
                     if(!hit) {
                         if(!subtractScore(currScore)) {
-                            colorGamePanel.setScore(score);
-                            newGame(hangmanFrame, cardPanel, colorGamePanel);
+                            hangmanFrame.getColorGamePanel().setScore(score);
+                            newGame(hangmanFrame, cardPanel);
                             hangmanFrame.showPanel("colorGamePanel");
                         }
                         limbCounter++;
