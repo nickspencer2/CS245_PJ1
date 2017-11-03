@@ -81,6 +81,10 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
      */
     public Sudoku(HangmanFrame hmFrame, JPanel cPanel, HighScore hsPanel, int sudokuDebugNum){
         super();
+        Dimension d = new Dimension(584, 362);
+        this.setPreferredSize(d);
+        this.setMinimumSize(d);
+        this.setMaximumSize(d);
         score = 540;
         initScore = 0;
         notAgain = 0;
@@ -260,7 +264,7 @@ public class Sudoku extends JPanel implements PropertyChangeListener{
     private void setupLabels(){
         labels = new HashMap<>();
         JPanel topLabelsPane = panels.get("topLabelsPane");
-        JLabel sudokuLabel = new JLabel("Sudoku" + sudokuDebugNum);
+        JLabel sudokuLabel = new JLabel("Sudoku");
         JLabel scoreLabel = new JLabel("Score: " + score);
         JLabel timeLabel = createClock(new JLabel("TIMEHERE"));;
         labels.put("sudokuLabel", sudokuLabel);

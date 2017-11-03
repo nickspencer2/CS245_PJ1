@@ -13,6 +13,7 @@ package pj1;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -84,6 +85,10 @@ public class ColorGamePanel extends JPanel implements ActionListener {
      */
     public ColorGamePanel(HangmanFrame hFrame, JPanel cPanel, int colorGameDebugNum){
         super();
+        Dimension d = new Dimension(584, 362);
+        this.setPreferredSize(d);
+        this.setMinimumSize(d);
+        this.setMaximumSize(d);
         round = 0;
         this.colorGameDebugNum = colorGameDebugNum;
         hangmanFrame = hFrame;
@@ -107,7 +112,7 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         for(int i = 0; i < colorButtonImages.length; i++){
             ImageIcon imageIcon = new ImageIcon(COLOR_BUTTONS_IMAGE_NAMES[i]); // load the image to a imageIcon
             Image image = imageIcon.getImage(); // transform it 
-            Image newimg = image.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+            Image newimg = image.getScaledInstance(35, 35,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
             imageIcon = new ImageIcon(newimg);  // transform it back
             colorButtonImages[i] = imageIcon;
         }
@@ -185,7 +190,7 @@ public class ColorGamePanel extends JPanel implements ActionListener {
         //Setup the panel for the label that says the current time
         JPanel timeLabelPane = new JPanel();
         JLabel timeLabel = createClock(new JLabel("TIMEHERE"));
-        JLabel scoreLabel = new JLabel("Score: " + score + "..." + colorGameDebugNum);
+        JLabel scoreLabel = new JLabel("Score: " + score);
         BoxLayout timeLabelLayout = new BoxLayout(timeLabelPane, BoxLayout.LINE_AXIS);
         timeLabelPane.setLayout(timeLabelLayout);
         timeLabelPane.add(scoreLabel);

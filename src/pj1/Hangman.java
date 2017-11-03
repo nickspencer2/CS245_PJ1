@@ -75,7 +75,7 @@ public class Hangman extends javax.swing.JPanel {
         //Display the current score
         JLabel currScore = new JLabel();
         currScore.setFont(UIManager.getFont("Label.font").deriveFont(Font.BOLD, 20));
-        currScore.setText("Score: " + score + "..." + hangmanDebugNum);
+        currScore.setText("Score: " + score);
         currScore.setLocation(400, 100);
         currScore.setSize(200, 50);
         this.add(currScore);
