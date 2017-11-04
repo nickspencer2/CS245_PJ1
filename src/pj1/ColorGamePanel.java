@@ -85,10 +85,6 @@ public class ColorGamePanel extends JPanel implements ActionListener {
      */
     public ColorGamePanel(HangmanFrame hFrame, JPanel cPanel, int colorGameDebugNum){
         super();
-        Dimension d = new Dimension(584, 362);
-        this.setPreferredSize(d);
-        this.setMinimumSize(d);
-        this.setMaximumSize(d);
         round = 0;
         this.colorGameDebugNum = colorGameDebugNum;
         hangmanFrame = hFrame;

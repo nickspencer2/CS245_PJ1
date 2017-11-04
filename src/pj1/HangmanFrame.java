@@ -68,7 +68,7 @@ public class HangmanFrame extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         //Add the intro and main menu to the card layout to be able to switch between panels
         cardPanel = new javax.swing.JPanel(new java.awt.CardLayout());
-        this.setPreferredSize(new Dimension(600, 400));
+        //this.setPreferredSize(new Dimension(600, 400));
         introPanel = new IntroPanel();
         menuPanel = new MenuPanel(cardPanel);
         creditPanel = new Credit(this);
